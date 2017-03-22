@@ -1,0 +1,49 @@
+﻿
+@{
+    ViewBag.Title = "装修表单";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Fitment> list = ViewBag.List;
+    FitmentParameter Parameter = ViewBag.Parameter;
+}
+
+<h2>
+    &nbsp; 装修表单
+    <a class="btn btn-primary" href="/Fitment/create" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp; 创建表单</a>    
+</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-2 well">
+
+        </div>
+        <div class="col-md-10">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>户名</th>
+                        <th>编号</th>
+                        <th>地址</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(var item in list)
+                    {
+                        <tr>
+                            <td>
+                                <a href="/Fitment/Detail?id=@(item.ID)">@(item.Name)</a>
+                            </td>
+                            <td>@(item.Number)</td>
+                            <td>@(item.Address)</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            @{ 
+                Html.RenderPartial("_pagination", Parameter.Page as object);
+            }
+        </div>
+    </div>
+</div>
+
+
+

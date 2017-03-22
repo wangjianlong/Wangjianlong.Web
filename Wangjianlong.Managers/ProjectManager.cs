@@ -29,6 +29,20 @@ namespace Wangjianlong.Managers
             Db.SaveChanges();
             return true;
         }
+        /// <summary>
+        /// 作用：验证是否存在
+        /// 作者：汪建龙
+        /// 编写时间：2017年3月22日18:03:29
+        /// </summary>
+        /// <param name="title"></param>
+        /// <param name="name"></param>
+        /// <param name="price"></param>
+        /// <param name="unit"></param>
+        /// <returns></returns>
+        public bool Exist(string title,string name,int price,string unit)
+        {
+            return Db.Projects.Any(e => e.Title.ToLower() == title.ToLower() && e.Name.ToLower() == name.ToLower() && e.Price == price && e.Unit.ToLower() == unit.ToLower());
+        }
 
         /// <summary>
         /// 作用：查询
@@ -61,7 +75,42 @@ namespace Wangjianlong.Managers
             query = query.OrderBy(e => e.ID).SetPage(parameter.Page);
             return query.ToList();
         }
+        public List<Project> Search(string key)
+        {
+            var query = Db.Projects.Where(e => e.Name.ToLower().Contains(key.ToLower()) || e.Title.ToLower().Contains(key.ToLower())).OrderBy(e=>e.ID).SetPage(new PageParameter(1, 10)).ToList();
+            return query;
+        }
         
+        public void AddRange(List<Project> list)
+        {
+            var inputs = new List<Project>();
+            var dailys = new List<Daily>();
+            foreach(var item in list)
+            {
+                if (Exist(item.Title, item.Name, item.Price, item.Unit))
+                {
+                    dailys.Add(new Daily
+                    {
+                        Name="文件导入装修项目",
+                        Description=string.Format("系统中已经存在缩写：{0}；名称：{1}；价格：{2}；单位：{3}",item.Title,item.Name,item.Price,item.Unit)
+                    });
+                }
+                else
+                {
+                    inputs.Add(item);
+                }
+            }
+
+            if (inputs.Count > 0)
+            {
+                Db.Projects.AddRange(inputs);
+                Db.SaveChanges();
+            }
+            if (dailys.Count > 0)
+            {
+                Core.DailyManager.AddRange(dailys);
+            }
+        }
         
     }
 }

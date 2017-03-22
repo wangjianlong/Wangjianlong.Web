@@ -1,0 +1,63 @@
+﻿@{ 
+    Layout = null;
+    Position position = ViewBag.Model;
+}
+
+<h3 class="text-center">&nbsp;保存位置</h3>
+<form class="form-horizontal" method="post" action="" id="position-form">
+    <div class="row">
+        <div class="col-md-12">
+            @{ 
+                Html.RenderPartial("_Message");
+            }
+            <div class="form-group">
+                <label class="control-label col-md-4">&nbsp;位置名称</label>
+                <div class="col-md-7">
+                    <input type="hidden" name="ID" value="@(position!=null?position.ID:0)" />
+                    <input type="hidden" name="FitmentID" value="@(position!=null?position.FitmentID:0)" />
+                    <input type="text" name="Name" class="form-control" placeholder="位置名称" value="@(position!=null?position.Name:"")" required />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-4">&nbsp; 类别</label>
+                <div class="col-md-7">
+                    <select name="Category" class="form-control">
+                        <option value="" @(position==null?"selected=selected":"")>请选择类别</option>
+                        @foreach(Category category in Enum.GetValues(typeof(Category)))
+                        {
+                            <option value="@(category)" @(position!=null&&position.Category==category?"selected=selected":"")>@(category.GetDescription())</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-7 col-md-offset-4">
+                    <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-ok"></i>&nbsp; 保存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>&nbsp; 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+<script>
+    $(function () {
+        $("#position-form").submit(function () {
+            var btn = $("#position-form button[type='submit']");
+            btn.text("正在保存......").attr("disabled", "disabled");
+            ShowMessage("正在保存位置信息，请稍等......");
+            var data = $(this).serialize();
+            $.request("/Fitment/SavePosition", data, function (json) {
+                if (json.result = 0) {
+                    ShowErrorMessage(json.content);
+                    btn.empty().append("<i class='glyphicon glyphicon-ok'></i>&nbsp; 保存").removeAttr("disabled");
+                } else {
+                    ShowSuccessMessage("成功保存");
+                    location.href = "/Fitment/Detail?id=" + json.data;
+                }
+            });
+            return false;
+        });
+    });
+</script>

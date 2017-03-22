@@ -1,0 +1,70 @@
+﻿
+@{
+    Fitment fitment = ViewBag.Model;
+    ViewBag.Title = fitment.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<Position> positions = ViewBag.Positions;
+    var dict = positions.GroupBy(e => e.Category).ToDictionary(e => e.Key, e => e.ToList());
+}
+
+<script>
+    $(function () {
+        $("a[name='AddList']").click(function () {
+            var href = $(this).attr("href");
+            $("#List").load(href);
+            return false;
+        });
+    });
+</script>
+
+<h2>
+    &nbsp;@(fitment.Name)
+    <a class="btn btn-primary" href="/Fitment/CreatePosition?fitmentID=@(fitment.ID)" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp; 创建位置</a>    
+</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-8">
+            <table class="table table-bordered">
+                <tr>
+                    <th>户名</th>
+                    <td>@(fitment.Name)</td>
+                    <th>编号</th>
+                    <td colspan="3">@(fitment.Number)</td>
+                </tr>
+                <tr>
+                    <th>地址</th>
+                    <td colspan="5">@(fitment.Address)</td>
+                </tr>
+                <tr>
+                    <th>序号</th>
+                    <th>项目</th>
+                    <th>单价</th>
+                    <th>数量</th>
+                    <th>补偿价值【元】</th>
+                    <th>位置</th>
+                </tr>
+                @foreach (var item in dict)
+                {
+                    <tr>
+                        <th colspan="6"><h4 class="text-center">@(item.Key.GetDescription())</h4> </th>
+                    </tr>
+                    foreach (var entry in item.Value)
+                    {
+                        <tr>
+                            <th>
+                                @(entry.Name)
+                                <a href="/Project/AddList?positionId=@(entry.ID)" name="AddList" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;添加项目</a>
+                            </th>
+                        </tr>
+                    }
+                }
+            </table>
+        </div>
+        <div class="col-md-4" id="List">
+            
+        </div>
+        
+    </div>
+</div>
+

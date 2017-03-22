@@ -1,0 +1,66 @@
+﻿@{ 
+    Layout = null;
+    Fitment fitment = ViewBag.Model;
+}
+
+
+<h3 class="text-center">
+    &nbsp;添加装修表单
+</h3>
+
+
+<form class="form-horizontal" method="post" action="" id="fitment-form">
+    <div class="row">
+        <div class="col-md-12">
+            @{ 
+                Html.RenderPartial("_Message");
+            }
+            <div class="form-group">
+                <label class="control-label col-md-4">&nbsp;户名：</label>
+                <div class="col-md-7">
+                    <input type="text" name="Name" class="form-control" placeholder="户名" value="@(fitment!=null?fitment.Name:"")" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4">&nbsp;编号：</label>
+                <div class="col-md-7">
+                    <input type="text" name="Number" class="form-control" placeholder="编号" value="@(fitment!=null?fitment.Number:"")" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4">&nbsp;地址：</label>
+                <div class="col-md-7">
+                    <textarea name="Address" class="form-control" rows="3">@(fitment!=null?fitment.Address:"")</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-7 col-md-offset-4">
+                    <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-ok"></i>&nbsp; 保存</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>&nbsp; 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+ 
+</form>
+
+<script>
+    $(function () {
+        $("#fitment-form").submit(function () {
+            var btn = $("#fitment-form button[type='submit']");
+            btn.text("正在保存......").attr("disabled", "disabled");
+            ShowMessage("正在保存，请稍等......");
+            var data = $(this).serialize();
+            $.request("/fitment/create", data, function (json) {
+                if (json.result == 0) {
+                    ShowErrorMessage(json.content);
+                    btn.empty().append("<i class='glyphicon glyphicon-ok'></i>&nbsp; 保存").removeAttr("disabled");
+                } else {
+                    ShowSuccessMessage("成功保存");
+                    location.href = "/fitment/detail?id=" + json.data;
+                }
+            });
+            return false;
+        });
+    });
+</script>

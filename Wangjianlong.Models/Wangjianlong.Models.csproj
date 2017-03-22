@@ -46,8 +46,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Daily.cs" />
+    <Compile Include="Fitment.cs" />
+    <Compile Include="FitmentItem.cs" />
+    <Compile Include="Parameter\FitmentParameter.cs" />
     <Compile Include="Parameter\ParameterBase.cs" />
     <Compile Include="Parameter\ProjectParameter.cs" />
+    <Compile Include="Position.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Parameter\PageParameter.cs" />
     <Compile Include="User.cs" />

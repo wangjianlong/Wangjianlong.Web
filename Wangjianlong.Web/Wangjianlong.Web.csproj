@@ -164,6 +164,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\ControllerBase.cs" />
+    <Compile Include="Controllers\FitmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\UserController.cs" />
@@ -212,6 +213,12 @@
     <Content Include="Views\Shared\_pagination.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
+    <Content Include="Views\Project\File.cshtml" />
+    <Content Include="Views\Fitment\Create.cshtml" />
+    <Content Include="Views\Fitment\Detail.cshtml" />
+    <Content Include="Views\Fitment\Index.cshtml" />
+    <Content Include="Views\Fitment\CreatePosition.cshtml" />
+    <Content Include="Views\Project\AddList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

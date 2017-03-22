@@ -48,7 +48,12 @@
                         <li class="nav-item @(ViewBag.Controller.ToLower()=="Home".ToLower()?"active":"")">
                             <a class="nav-link" href="/Home"><i class="glyphicon glyphicon-home"></i>&nbsp;首页  <span class="sr-only">(current)</span></a>
                         </li>
-           
+                        <li class="nav-item @(ViewBag.Controller.ToLower()=="Fitment".ToLower()?"active":"")">
+                            <a class="nav-link" href="/Fitment"><i class="glyphicon glyphicon-cog"></i>&nbsp;装修表单管理</a>
+                        </li>
+                        <li class="nav-item @(ViewBag.Controller.ToLower()=="Project".ToLower()?"active":"")">
+                            <a class="nav-link" href="/Project"><i class="glyphicon glyphicon-cog"></i>&nbsp;装修项目管理</a>
+                        </li>
                         <li class="nav-item @(ViewBag.Controller.ToLower()=="System".ToLower()?"active":"")">
                             <a class="nav-link" href="/System"><i class="glyphicon glyphicon-cog"></i>&nbsp;系统管理</a>
                         </li>

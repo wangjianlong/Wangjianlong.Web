@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Wangjianlong.Common;
+using Wangjianlong.Models;
 using Wangjianlong.Models.Parameter;
 
 namespace Wangjianlong.Web.Controllers
@@ -47,8 +48,39 @@ namespace Wangjianlong.Web.Controllers
             }
             var filePath = FileManager.Upload(file);
             var list = FileProjectHelper.AnalyzeProject(filePath);
-
+            Core.ProjectManager.AddRange(list);
             return RedirectToAction("Index");
         }
+
+        public ActionResult AddList(int positionId)
+        {
+            var position = Core.PositionManager.Get(positionId);
+            ViewBag.Model = position;
+            return View();
+        }
+
+        public ActionResult Search(string key)
+        {
+            List<Project> list;
+            if (string.IsNullOrEmpty(key))
+            {
+                list = new List<Project>();
+            }
+            else
+            {
+                list = Core.ProjectManager.Search(key);
+                //var parameter = new ProjectParameter
+                //{
+                //    Title = key,
+                //    Name = key,
+                //    Page = new PageParameter(1, 10)
+                //};
+                // list = Core.ProjectManager.Search(parameter);
+            }
+  
+            return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+
     }
 }
