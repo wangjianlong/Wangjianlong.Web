@@ -1,0 +1,60 @@
+﻿
+@{
+    ViewBag.Title = "登陆";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    $(function () {
+        $("#login-form").submit(function () {
+            var btn = $("#login-form button[type='submit']");
+            btn.text("正在登陆......").attr("disabled", "disabled");
+            ShowMessage("正在登陆系统，请稍等......");
+            var data = $(this).serialize();
+            $.request("/user/login", data, function (json) {
+                if (json.result == 0) {
+                    ShowErrorMessage(json.content);
+                    btn.empty().append("<i class='glyphicon glyphicon-ok'></i>登陆").removeAttr("disabled");
+
+                } else {
+                    ShowSuccessMessage("成功登陆系统，正在跳转页面.......");
+                    location.href = "/Home/Index";
+                }
+            });
+
+            return false;
+        });
+    });
+</script>
+
+<div class="row">
+    <div class="col-md-4 col-md-offset-2">
+        <h2 >&nbsp;登陆</h2>
+        <hr />
+        <form class="form-horizontal" method="post" action="/user/login" id="login-form">
+            @{ 
+                Html.RenderPartial("_Message");
+            }
+            <div class="form-group">
+                <label class="control-label col-md-4">用户名：</label>
+                <div class="col-md-7">
+                    <input type="text" name="Name" class="form-control" placeholder="用户名" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4">密码：</label>
+                <div class="col-md-7">
+                    <input type="password" name="Password" class="form-control" placeholder="密码" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-7 col-md-offset-4">
+                    <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-ok"></i>登陆</button>
+                    <button type="button" class="btn btn-success"><i class="glyphicon glyphicon-plus-sign"></i>注册</button>
+                </div> 
+            </div>
+        </form>
+    </div>
+</div>
+
+

@@ -45,3 +45,13 @@ $RECYCLE.BIN/
 Network Trash Folder
 Temporary Items
 .apdisk
+
+/Wangjianlong.Web/bin
+/Wangjianlong.Web/obj
+/Wangjianlong.Models/bin
+/Wangjianlong.Models/obj
+/Wangjianlong.Common/bin
+/Wangjianlong.Common/obj
+/Wangjianlong.Managers/bin
+/Wangjianlong.Managers/obj
+/packages
