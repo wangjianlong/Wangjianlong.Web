@@ -60,7 +60,9 @@
   <ItemGroup>
     <Compile Include="DailyManager.cs" />
     <Compile Include="DataBaseDbContext.cs" />
+    <Compile Include="FitmentItemManager.cs" />
     <Compile Include="FitmentManager.cs" />
+    <Compile Include="ItemProjectPositionManager.cs" />
     <Compile Include="ManagerBase.cs" />
     <Compile Include="ManagerCore.cs" />
     <Compile Include="OneContext.cs" />

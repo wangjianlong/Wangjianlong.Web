@@ -48,7 +48,9 @@
     <Compile Include="Daily.cs" />
     <Compile Include="Fitment.cs" />
     <Compile Include="FitmentItem.cs" />
+    <Compile Include="ItemProjectPosition.cs" />
     <Compile Include="Parameter\FitmentParameter.cs" />
+    <Compile Include="Parameter\ItemProjectPositionParameter.cs" />
     <Compile Include="Parameter\ParameterBase.cs" />
     <Compile Include="Parameter\ProjectParameter.cs" />
     <Compile Include="Position.cs" />

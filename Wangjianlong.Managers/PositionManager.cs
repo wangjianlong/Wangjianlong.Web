@@ -50,5 +50,29 @@ namespace Wangjianlong.Managers
         {
             return Db.Positions.Any(e => e.FitmentID == fitmentID && e.Name.ToLower() == name.ToLower() && e.Category == category);
         }
+
+        /// <summary>
+        /// 作用：验证是否已使用
+        /// 作者：汪建龙
+        /// 编写时间：2017年3月23日15:51:49
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool Used(int id)
+        {
+            return Db.FitmentItems.Any(e => e.PositionID == id);
+        }
+
+        public bool Delete(int id)
+        {
+            var model = Db.Positions.Find(id);
+            if (model == null)
+            {
+                return false;
+            }
+            Db.Positions.Remove(model);
+            Db.SaveChanges();
+            return true;
+        }
     }
 }

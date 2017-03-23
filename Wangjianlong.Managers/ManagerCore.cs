@@ -19,5 +19,10 @@ namespace Wangjianlong.Managers
         public FitmentManager FitmentManager { get { return _fitmentManager == null ? _fitmentManager = new FitmentManager() : _fitmentManager; } }
         private PositionManager _positionManager { get; set; }
         public PositionManager PositionManager { get { return _positionManager == null ? _positionManager = new PositionManager() : _positionManager; } }
+        private FitmentItemManager _fitmentItemManager { get; set; }
+        public FitmentItemManager FitmentItemManager { get { return _fitmentItemManager == null ? _fitmentItemManager = new FitmentItemManager() : _fitmentItemManager; } }
+        private ItemProjectPositionManager _itemProjectPositionManager { get; set; }
+        public ItemProjectPositionManager ItemProjectPositionManager { get { return _itemProjectPositionManager == null ? _itemProjectPositionManager = new ItemProjectPositionManager() : _itemProjectPositionManager; } }
+
     }
 }
