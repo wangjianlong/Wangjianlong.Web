@@ -1,5 +1,7 @@
-﻿using System;
+﻿using NPOI.SS.UserModel;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -38,10 +40,7 @@ namespace Wangjianlong.Web.Controllers
             {
                 return ErrorJsonResult("未获取装修表单信息");
             }
-            if (Core.FitmentManager.Exist(fitment.Name))
-            {
-                return ErrorJsonResult(string.Format("系统中已存在装修表单名称为{0}", fitment.Name));
-            }
+    
             if (fitment.ID > 0)
             {
                 if (!Core.FitmentManager.Edit(fitment))
@@ -51,6 +50,10 @@ namespace Wangjianlong.Web.Controllers
             }
             else
             {
+                if (Core.FitmentManager.Exist(fitment.Name))
+                {
+                    return ErrorJsonResult(string.Format("系统中已存在装修表单名称为{0}", fitment.Name));
+                }
                 var id = Core.FitmentManager.Save(fitment);
                 if (id <= 0)
                 {
@@ -64,7 +67,8 @@ namespace Wangjianlong.Web.Controllers
         {
             var model = Core.FitmentManager.Get(id);
             ViewBag.Model = model;
-            ViewBag.Positions = Core.PositionManager.GetByFitmentID(model.ID);
+            ViewBag.Positions = Core.PositionManager.GetByFitmentID(id);
+            ViewBag.Items = Core.ItemProjectPositionManager.GetFitmentID(id);
             return View();
         }
 
@@ -114,6 +118,37 @@ namespace Wangjianlong.Web.Controllers
                 }
             }
             return SuccessJsonResult(position.FitmentID);
+        }
+
+        public ActionResult DeletePosition(int id)
+        {
+            if (Core.PositionManager.Used(id))
+            {
+                return ErrorJsonResult("当前位置已经添加项目，故无法删除");
+            }
+            if (!Core.PositionManager.Delete(id))
+            {
+                return ErrorJsonResult("删除位置失败，未找到删除的位置信息");
+            }
+            return SuccessJsonResult();
+        }
+
+        public ActionResult Download(int id)
+        {
+            var fitment = Core.FitmentManager.Get(id);
+            if (fitment == null)
+            {
+                throw new ArgumentException("获取装修表单信息失败");
+            }
+            var positions = Core.PositionManager.GetByFitmentID(fitment.ID);
+            var items = Core.ItemProjectPositionManager.GetFitmentID(fitment.ID);
+
+            IWorkbook workbook = FitmentExcelManager.SaveFitment(fitment, positions, items);
+            MemoryStream ms = new MemoryStream();
+            workbook.Write(ms);
+            ms.Flush();
+            byte[] fileContents = ms.ToArray();
+            return File(fileContents, "application/ms-excel", string.Format("{0}.xls", fitment.Name));
         }
     }
 }

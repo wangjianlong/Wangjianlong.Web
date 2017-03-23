@@ -17,7 +17,9 @@ namespace Wangjianlong.Models
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int ID { get; set; }
         public int ProjectID { get; set; }
-        public int Number { get; set; }
+        public virtual Project Project { get; set; }
+        public double Number { get; set; }
         public int PositionID { get; set; }
+        public virtual Position Position { get; set; }
     }
 }

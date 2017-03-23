@@ -5,64 +5,100 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<Position> positions = ViewBag.Positions;
     var dict = positions.GroupBy(e => e.Category).ToDictionary(e => e.Key, e => e.ToList());
+    List<ItemProjectPosition> items = ViewBag.Items;
+    var serial = 1;
 }
 
 <script>
     $(function () {
         $("a[name='AddList']").click(function () {
             var href = $(this).attr("href");
-            $("#List").load(href);
+            ShowMessage("正在加载项目,请稍等......");
+            $("#List").load(href, function () {
+                ShowSuccessMessage("成功加载");
+            });
             return false;
         });
+
     });
 </script>
 
 <h2>
     &nbsp;@(fitment.Name)
-    <a class="btn btn-primary" href="/Fitment/CreatePosition?fitmentID=@(fitment.ID)" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp; 创建位置</a>    
+    <a class="btn btn-success" href="/Fitment/CreatePosition?fitmentID=@(fitment.ID)" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp; 创建位置</a>    
+    <a class="btn btn-primary" href="/Fitment/Create?id=@(fitment.ID)" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-edit"></i>&nbsp;编辑</a>
+    <a class="btn btn-warning" href="/Fitment/Download?id=@(fitment.ID)"><i class="glyphicon glyphicon-download-alt"></i>&nbsp;下载Excel文件</a>
 </h2>
 
 <div class="row">
     <div class="col-md-12">
-        <div class="col-md-8">
+        @{
+            Html.RenderPartial("_Message");
+        }
+        <div class="col-md-12">
             <table class="table table-bordered">
                 <tr>
                     <th>户名</th>
                     <td>@(fitment.Name)</td>
                     <th>编号</th>
-                    <td colspan="3">@(fitment.Number)</td>
+                    <td colspan="4">@(fitment.Number)</td>
                 </tr>
                 <tr>
                     <th>地址</th>
-                    <td colspan="5">@(fitment.Address)</td>
+                    <td colspan="6">@(fitment.Address)</td>
                 </tr>
                 <tr>
+                    <th>位置</th>
                     <th>序号</th>
                     <th>项目</th>
                     <th>单价</th>
                     <th>数量</th>
                     <th>补偿价值【元】</th>
-                    <th>位置</th>
+                    <th>操作</th>
                 </tr>
                 @foreach (var item in dict)
                 {
+
                     <tr>
-                        <th colspan="6"><h4 class="text-center">@(item.Key.GetDescription())</h4> </th>
+                        <th colspan="7"><h4 class="text-center">@(item.Key.GetDescription())</h4> </th>
                     </tr>
-                    foreach (var entry in item.Value)
+                    foreach(var position in item.Value)
                     {
+                        var itemprojects = items.Where(e => e.PositionID == position.ID).ToList();
                         <tr>
-                            <th>
-                                @(entry.Name)
-                                <a href="/Project/AddList?positionId=@(entry.ID)" name="AddList" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;添加项目</a>
+                            <th rowspan="@(itemprojects.Count+1)">
+                                @(position.Name)
+                                <a href="/Project/AddList?positionId=@(position.ID)" name="AddList" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;添加项目</a>
+                                <a href="/fitment/CreatePosition?id=@(position.ID)" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-edit"></i>&nbsp;编辑</a>
+                                <a href="/fitment/DeletePosition?id=@(position.ID)" class="btn btn-danger btn-xs" name="Delete"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;删除</a>
                             </th>
                         </tr>
+                        foreach(var entey in itemprojects)
+                        {
+                            <tr>
+                                <td>@(serial++)</td>
+                                <td>@string.Format("{0}（{1}）",entey.Name,entey.Title)</td>
+                                <td>@(entey.Price)</td>
+                                <td>@(entey.Number)</td>
+                                <td>
+                                    @(entey.Sum)
+                                </td>
+                                <td>
+                                    <a href="/fitmentitem/edit?id=@(entey.ID)" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-edit"></i>&nbsp;编辑</a>
+                                    <a href="/fitmentItem/delete?id=@(entey.ID)" class="btn btn-danger btn-xs" name="Delete"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;删除</a>
+                                </td>
+                            </tr>
+                        }
                     }
                 }
             </table>
         </div>
-        <div class="col-md-4" id="List">
-            
+        <hr />
+        <div class="col-md-12" >
+
+            <div class="" id="List">
+
+            </div>
         </div>
         
     </div>

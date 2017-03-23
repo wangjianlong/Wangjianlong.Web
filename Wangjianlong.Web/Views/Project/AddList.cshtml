@@ -3,27 +3,95 @@
     Position position = ViewBag.Model;
 }
 
-<div class="alert alert-success" role="alert">
-    <span>@string.Format("{0}添加项目",position.Name)</span>
-</div>
-
-<div class="form-group">
-    <label class="control-label">&nbsp;关键字:</label>
+<h3 >&nbsp;添加项目</h3>
+<div class="row">
     <div class="col-md-12">
-        <input type="text" name="Key" placeholder="请输入缩写或者项目关键字"  class="form-control" onkeyup="ShowResult(this.value)"/>
-    </div>
-</div>
-<div class="form-group">
-    <label class="control-label">&nbsp;项目：</label>
-    <div class="col-md-12">
-        <div class="list-group" id="OUT">
-            <button type="button" class="list-group-item" name="Add">缩写：zbq62-sz； 全称：座便器；单价：1200元/个</button>
+        <div class="col-md-6">
+            <div class="alert alert-success" role="alert">
+                <span>当前添加项目的位置为:<strong>@(position.Name)</strong></span>
+            </div>
+            <div class="form-group">
+                <label class="control-label">&nbsp;关键字:</label>
+                <div class="col-md-12">
+                    <input type="text" name="Key" placeholder="请输入缩写或者项目关键字" class="form-control" onkeyup="ShowResult(this.value)" />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label">&nbsp;项目：</label>
+                <div class="col-md-12">
+                    <div class="list-group" id="OUT">
+                        <button type="button" class="list-group-item" name="Add" Title="zbq62-sz" Price="1200元/个">缩写：zbq62-sz； 全称：座便器；单价：1200元/个</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <form class="form-horizontal" method="post" id="fitment-item" action="">
+                <input type="hidden" name="PositionID" value="@(position.ID)" />
+                <div class="form-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <h3 class="panel-title"><strong>@(position.Name)</strong>项目清单</h3>
+                        </div>
+                        <table class="table table-striped table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>缩写</th>
+                                    <th>项目</th>
+                                    <th>单价</th>
+                                    <th>数量</th>
+                                    <th>操作</th>
+                                </tr>
+                            </thead>
+                            <tbody name="Items">
+                             
+                            </tbody>
+                        </table>
+                        <div class="panel-body">
+                            <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-ok"></i>&nbsp;保存</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>
 
 
+
+<div class="hidden">
+    <table>
+        <tbody  name="Item">
+            <tr>
+                <td>
+                    <input type="text" name="" class="form-control" value="{Title}" readonly />
+                </td>
+                <td>
+                    <input type="text" name="" class="form-control" value="{Name}" readonly />
+                </td>
+                <td>
+                    <input type="text" name="" class="form-control" value="{Price}" readonly />
+                </td>
+                <td>
+                    <input type="hidden" name="ProjectID" value="{ID}" />
+                    <input type="text" name="Number" class="form-control" value="" />
+                </td>
+                <td>
+                    <button type="button" class="btn btn-danger btn-xs" name="Remove"><i class="glyphicon glyphicon-remove" ></i></button>
+                </td>
+            </tr>
+        </tbody>
+        
+    </table>
+</div>
+
+
+
+
+
 <script>
+    var appendHtml = $("tbody[name='Item']").html();
+
     function ShowResult(key) {
         console.log(key);
         var result = $("#OUT");
@@ -31,11 +99,42 @@
             result.empty();
             $.each(data, function (key, val) {
                 console.log(val.Name);
-                result.append(' <button type="button" class="list-group-item">缩写：'+val.Title+'； 全称：'+val.Name+'；单价：'+val.Price+'元/'+val.Unit+'</button>')
+                result.append(' <button type="button" class="list-group-item" name="Add" Val="'+val.Name+'" key="'+val.ID+'" Title="'+val.Title+'" Price="'+val.Price+"元/"+val.Unit+'" >缩写：'+val.Title+'； 全称：'+val.Name+'；单价：'+val.Price+'元/'+val.Unit+'</button>')
             });
             $("button[type='button'][name='Add']").unbind("click").bind("click", function () {
+                var title = $(this).attr("Title");
+                var Price = $(this).attr("Price");
+                var name=$(this).attr("Val");
+                var id=$(this).attr("key");
+                var addhtml = appendHtml.replace("{Title}", title).replace("{Price}", Price).replace("{Name}", name).replace("{ID}", id);
+                $("tbody[name='Items']").append(addhtml);
 
+                $("button[type='button'][name='Remove']").unbind("click").bind("click", function () {
+                    var parent = $(this).parent().parent();
+                    parent.remove();
+                });
             });
+
+           
         });
     }
+
+    $(function () {
+        $("#fitment-item").submit(function () {
+            var btn = $("#fitment-item button[type='submit']");
+            btn.text("正在保存......").attr("disabled", "disabled");
+            var data = $(this).serialize();
+            ShowMessage("正在保存，请稍等......");
+            $.request("/fitmentitem/SaveItems", data, function (json) {
+                if (json.result == 0) {
+                    ShowErrorMessage(json.content);
+                    btn.empty().append('<i class="glyphicon glyphicon-ok"></i>&nbsp;保存').removeAttr("disabled");
+                } else {
+                    ShowSuccessMessage("成功保存，正在刷新项目清单，请稍等......");
+                    location.href = "/fitment/detail?id=" + json.data;
+                }
+            });
+            return false;
+        });
+    });
 </script>

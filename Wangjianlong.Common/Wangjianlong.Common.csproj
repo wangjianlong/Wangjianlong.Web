@@ -55,6 +55,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Web" />
@@ -76,6 +77,8 @@
     <Compile Include="ExcelManager.cs" />
     <Compile Include="FileManager.cs" />
     <Compile Include="FileProjectHelper.cs" />
+    <Compile Include="FitmentExcelManager.cs" />
+    <Compile Include="HttpContextHelper.cs" />
     <Compile Include="JsonExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QueryableExtensions.cs" />
