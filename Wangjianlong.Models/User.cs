@@ -39,6 +39,7 @@ namespace Wangjianlong.Models
 
     public enum UserRole
     {
+        [Description("游客")]
         Guest,
         [Description("一般用户")]
         Commone,

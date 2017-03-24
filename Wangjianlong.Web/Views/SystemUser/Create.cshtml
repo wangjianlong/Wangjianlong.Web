@@ -1,0 +1,77 @@
+﻿@{ 
+    Layout = null;
+}
+
+<script>
+    $(function () {
+        $("#user-form").submit(function () {
+            var btn = $("#user-form button[type='submit']");
+            btn.text("正在添加......").attr("disabled", "disabled");
+            ShowMessage("正在添加，请稍等......");
+            var data = $(this).serialize();
+            $.request("/systemuser/save", data, function (json) {
+                if (json.result == 0) {
+                    ShowErrorMessage(json.content);
+                    btn.empty().append('<i class="glyphicon glyphicon-ok"></i>&nbsp;添加').removeAttr("disabled");
+                } else {
+                    ShowSuccessMessage("成功添加");
+                    location.href = "/systemUser/index";
+                }
+            });
+            return false;
+        });
+    })
+</script>
+
+<h3 class="text-center">添加用户</h3>
+<div class="row">
+    <div class="col-md-12">
+        <form class="form-horizontal" method="post" action="/systemUser/save" id="user-form">
+            @{ 
+                Html.RenderPartial("_Message");
+            }
+            <div class="form-group">
+                <label class="control-label col-md-4">&nbsp;系统登陆名：</label>
+                <div class="col-md-7">
+                    <input type="text" name="UserName" class="form-control" placeholder="系统登陆名"  required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4">&nbsp;显示名称（真实名称）：</label>
+                <div class="col-md-7">
+                    <input type="text" name="DisplayName" class="form-control" placeholder="显示名称（真实名称）" required />
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4">&nbsp;密码：</label>
+                <div class="col-md-7">
+                    <input type="password" name="Password" class="form-control" placeholder="密码"  required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4">&nbsp;确认密码：</label>
+                <div class="col-md-7">
+                    <input type="password" name="CopyPassword" class="form-control" placeholder="确认密码"  required/>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4">&nbsp;角色：</label>
+                <div class="col-md-7">
+                    <select name="Role" class="form-control">
+                        @foreach(UserRole role in Enum.GetValues(typeof(UserRole)))
+                        {
+                            <option value="@(role)">@(role.GetDescription())</option>
+                        }
+                    </select>
+                </div>
+            </div>
+            <hr />
+            <div class="form-group">
+                <div class="col-md-7 col-md-offset-4">
+                    <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-ok"></i>&nbsp;添加</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>&nbsp; 取消</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

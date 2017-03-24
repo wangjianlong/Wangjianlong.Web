@@ -1,7 +1,7 @@
 -- --------------------------------------------------------
--- 主机:                           10.22.102.90
+-- 主机:                           192.168.31.10
 -- 服务器版本:                        5.1.73-community - MySQL Community Server (GPL)
--- 服务器操作系统:                      Win32
+-- 服务器操作系统:                      Win64
 -- HeidiSQL 版本:                  9.4.0.5125
 -- --------------------------------------------------------
 
@@ -22,15 +22,17 @@ CREATE TABLE IF NOT EXISTS `fitment` (
   `Number` varchar(255) NOT NULL,
   `Address` varchar(255) DEFAULT NULL,
   `CreateTime` datetime NOT NULL,
-  PRIMARY KEY (`ID`)
+  `UserID` int(11) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`ID`),
+  KEY `UserID` (`UserID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- 正在导出表  fitment.fitment 的数据：~2 rows (大约)
 DELETE FROM `fitment`;
 /*!40000 ALTER TABLE `fitment` DISABLE KEYS */;
-INSERT INTO `fitment` (`ID`, `Name`, `Number`, `Address`, `CreateTime`) VALUES
-	(1, '汪建龙', '007', '浙江省湖州市德清县雷甸镇杨敦村张家埭27号', '2017-03-23 17:04:00'),
-	(2, '李向农', '001', '测试', '2017-03-23 19:49:41');
+INSERT INTO `fitment` (`ID`, `Name`, `Number`, `Address`, `CreateTime`, `UserID`) VALUES
+	(1, '汪建龙', '007', '浙江省湖州市德清县雷甸镇杨敦村张家埭27号', '2017-03-23 17:04:00', 0),
+	(2, '李向农', '001', '测试', '2017-03-23 19:49:41', 0);
 /*!40000 ALTER TABLE `fitment` ENABLE KEYS */;
 
 -- 导出  表 fitment.fitmentitem 结构
@@ -101,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `project` (
   PRIMARY KEY (`ID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=498 DEFAULT CHARSET=utf8;
 
--- 正在导出表  fitment.project 的数据：~442 rows (大约)
+-- 正在导出表  fitment.project 的数据：~175 rows (大约)
 DELETE FROM `project`;
 /*!40000 ALTER TABLE `project` DISABLE KEYS */;
 INSERT INTO `project` (`ID`, `Title`, `Name`, `Price`, `Unit`) VALUES
@@ -618,14 +620,15 @@ CREATE TABLE IF NOT EXISTS `secure` (
   `Type` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `UserID` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- 正在导出表  fitment.secure 的数据：~2 rows (大约)
+-- 正在导出表  fitment.secure 的数据：~3 rows (大约)
 DELETE FROM `secure`;
 /*!40000 ALTER TABLE `secure` DISABLE KEYS */;
 INSERT INTO `secure` (`ID`, `UserID`, `LoginTime`, `LogoutTime`, `Address`, `HostName`, `Browser`, `Version`, `Platform`, `Type`) VALUES
 	(1, 1, '0001-01-01 00:00:00', NULL, '10.22.102.162', '10.22.102.162', 'Chrome', '45.0', 'WinNT', 'Chrome45'),
-	(2, 1, '0001-01-01 00:00:00', NULL, '10.22.102.3', '10.22.102.3', 'Chrome', '45.0', 'WinNT', 'Chrome45');
+	(2, 1, '0001-01-01 00:00:00', NULL, '10.22.102.3', '10.22.102.3', 'Chrome', '45.0', 'WinNT', 'Chrome45'),
+	(3, 1, '2017-03-24 20:59:10', NULL, '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45');
 /*!40000 ALTER TABLE `secure` ENABLE KEYS */;
 
 -- 导出  表 fitment.user 结构

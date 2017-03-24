@@ -25,5 +25,6 @@ namespace Wangjianlong.Models
         public string Number { get; set; }
         public string Address { get; set; }
         public DateTime CreateTime { get; set; }
+        public int UserID { get; set; }
     }
 }

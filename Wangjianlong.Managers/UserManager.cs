@@ -88,5 +88,15 @@ namespace Wangjianlong.Managers
             }
             return model.Password == password.MD5();
         }
+
+        public User Get(int id)
+        {
+            if (id <= 0)
+            {
+                return null;
+            }
+            var model = Db.Users.Find(id);
+            return model;
+        }
     }
 }
