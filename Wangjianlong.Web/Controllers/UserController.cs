@@ -35,14 +35,44 @@ namespace Wangjianlong.Web.Controllers
             {
                 return ErrorJsonResult("登陆失败，请核对用户名和密码");
             }
+
+            if (user.Approve == false)
+            {
+                return ErrorJsonResult("当前用户未授权登录，请联系管理员");
+            }
+            var securebase = new SecureBase
+            {
+                Address = Request.UserHostAddress,
+                HostName = Request.UserHostName,
+                Browser = Request.Browser.Browser,
+                Version = Request.Browser.Version,
+                Platform = Request.Browser.Platform,
+                Type = Request.Browser.Type
+            };
+            System.Web.HttpContext.Current.Application.Login(user, securebase);
+            var secure = new Secure(securebase);
+            secure.UserID = user.ID;
             HttpContext.SaveAuth(user);
+            Core.SecureManager.Save(secure);
             return SuccessJsonResult();
         }
 
         public ActionResult LoginOut()
         {
+            System.Web.HttpContext.Current.Application.LogOut(Identity.UserID);
             HttpContext.ClearAuth();
             return RedirectToAction("Login");
+        }
+
+        public ActionResult ChangePassword()
+        {
+            return View();
+        }
+
+        public ActionResult ChangePassword(string oldPassword,string newpassword,string copyPassword)
+        {
+
+            return SuccessJsonResult();
         }
     }
 }

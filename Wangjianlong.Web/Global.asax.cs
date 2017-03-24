@@ -22,6 +22,7 @@ namespace Wangjianlong.Web
         protected virtual void Application_BeginRequest()
         {
             OneContext.Begin();
+           //Application
         }
 
         protected virtual void Application_EndRequest()

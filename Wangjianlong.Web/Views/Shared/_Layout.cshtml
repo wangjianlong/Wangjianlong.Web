@@ -19,18 +19,19 @@
     <script src="~/Scripts/Contract.js"></script>
     <script src="~/Scripts/Faith.js"></script>
     <script>
+        function closeFunction() {
+            //return "something to do";
+        }
+
         $(function () {
             $("#Modal").on("hidden.bs.modal", function () {
                 $(this).removeData("bs.modal");
             });
-
-  
-
             $('[data-toggle="popover"]').popover();
         })
     </script>
 </head>
-<body>
+<body onbeforeunload="return closeFunction()">
     <nav class="navbar navbar-default navbar-fixed-top">
         <div class="container-fluid">
             <div class="navbar-header">

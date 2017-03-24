@@ -56,6 +56,7 @@
     <Compile Include="Position.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Parameter\PageParameter.cs" />
+    <Compile Include="Secure.cs" />
     <Compile Include="User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

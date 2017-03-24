@@ -35,9 +35,26 @@ namespace Wangjianlong.Web.Controllers
         {
             ViewBag.Controller = filterContext.RequestContext.RouteData.Values["controller"];
             ViewBag.Action = filterContext.RequestContext.RouteData.Values["action"];
+            if (Identity.IsAuthenticated)
+            {
+                
+                if(!System.Web.HttpContext.Current.Application.IsCurrentDevice(Identity.UserID,new Models.SecureBase {
+                    Address = Request.UserHostAddress,
+                    HostName = Request.UserHostAddress,
+                    Browser=Request.Browser.Browser,
+                    Version=Request.Browser.Version,
+                    Platform=Request.Browser.Platform,
+                    Type=Request.Browser.Type
+                }))
+                {
+                    HttpContext.ClearAuth();
+                    filterContext.HttpContext.Response.Redirect("/user/login");
+                }
+            }
             base.OnActionExecuting(filterContext);
         }
 
+ 
         private int GetStatusCode(Exception ex)
         {
             var statusCode = (int)HttpStatusCode.InternalServerError;

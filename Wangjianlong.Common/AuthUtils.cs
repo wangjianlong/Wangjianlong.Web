@@ -10,7 +10,7 @@ namespace Wangjianlong.Common
         private const string _cookieName = "Wangjianlong";
         public static string GenerateToken(this HttpContextBase context,User user)
         {
-            var ticket = new FormsAuthenticationTicket(1, user.ID + "|" + user.UserName + "|" + user.DisplayName+"|"+user.Role, DateTime.Now, DateTime.MaxValue, true, "user_token");
+            var ticket = new FormsAuthenticationTicket(1, user.ID + "|" + user.UserName + "|" + user.DisplayName+"|"+user.Role, DateTime.Now, DateTime.Now.AddHours(8), true, "user_token");
             var token = FormsAuthentication.Encrypt(ticket);
             return token;
         }

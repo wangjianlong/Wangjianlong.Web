@@ -11,6 +11,8 @@ namespace Wangjianlong.Managers
         public static readonly ManagerCore Instance = new ManagerCore();
         private UserManager _userManager { get; set; }
         public UserManager UserManager { get { return _userManager == null ? _userManager = new UserManager() : _userManager; } }
+        private SecureManager _secureManager { get; set; }
+        public SecureManager SecureManager { get { return _secureManager == null ? _secureManager = new SecureManager() : _secureManager; } }
         private ProjectManager _projectManager { get; set; }
         public ProjectManager ProjectManager { get { return _projectManager == null ? _projectManager = new ProjectManager() : _projectManager; } }
         private DailyManager _dailyManager { get; set; }

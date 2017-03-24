@@ -69,6 +69,7 @@
     <Compile Include="PositionManager.cs" />
     <Compile Include="ProjectManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SecureManager.cs" />
     <Compile Include="UserManager.cs" />
   </ItemGroup>
   <ItemGroup>

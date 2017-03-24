@@ -20,9 +20,13 @@ namespace Wangjianlong.Common
         {
             if (_enable)
             {
-                var retureUrl = filterContext.HttpContext.Request.Url.AbsoluteUri;
+                var request = filterContext.HttpContext.Request;
+                var retureUrl = request.Url.AbsoluteUri;
                 filterContext.HttpContext.Response.Redirect("/user/login?returnUrl=" + HttpUtility.UrlEncode(retureUrl));
             }
         }
+
+        
+
     }
 }

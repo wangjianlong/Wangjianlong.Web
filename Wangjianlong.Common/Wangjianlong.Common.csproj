@@ -69,9 +69,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ApplicationHelper.cs" />
     <Compile Include="AuthenticateModule.cs" />
     <Compile Include="AuthUtils.cs" />
     <Compile Include="BaseView.cs" />
+    <Compile Include="BrowserHelper.cs" />
     <Compile Include="EncryptExtensions.cs" />
     <Compile Include="EnumHelper.cs" />
     <Compile Include="ExcelManager.cs" />

@@ -21,6 +21,7 @@ namespace Wangjianlong.Managers
         }
 
         public DbSet<User> Users { get; set; }
+        public DbSet<Secure> Secures { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Daily> Dailys { get; set; }
         public DbSet<Fitment> Fitments { get; set; }

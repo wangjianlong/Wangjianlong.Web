@@ -59,5 +59,34 @@ namespace Wangjianlong.Managers
             var model = Db.Users.FirstOrDefault(e => e.UserName.ToLower() == name.ToLower() && e.Password == password);
             return model;
         }
+
+        /// <summary>
+        /// 作用：获取所有用户列表
+        /// 作者：汪建龙
+        /// 编写时间：2017年3月24日14:57:33
+        /// </summary>
+        /// <returns></returns>
+        public List<User> GetList()
+        {
+            return Db.Users.OrderBy(e => e.ID).ToList();
+        }
+
+        /// <summary>
+        /// 作用：验证用户密码是否正确
+        /// 作者：汪建龙
+        /// 编写时间：2017年3月24日15:14:25
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="password"></param>
+        /// <returns></returns>
+        public bool Validate(int id,string password)
+        {
+            var model = Db.Users.Find(id);
+            if (model == null)
+            {
+                return false;
+            }
+            return model.Password == password.MD5();
+        }
     }
 }
