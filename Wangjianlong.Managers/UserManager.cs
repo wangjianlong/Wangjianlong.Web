@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Wangjianlong.Common;
 using Wangjianlong.Models;
+using Wangjianlong.Models.Parameter;
 
 namespace Wangjianlong.Managers
 {
@@ -66,9 +67,19 @@ namespace Wangjianlong.Managers
         /// 编写时间：2017年3月24日14:57:33
         /// </summary>
         /// <returns></returns>
-        public List<User> GetList()
+        public List<User> Search(UserParameter parameter)
         {
-            return Db.Users.OrderBy(e => e.ID).ToList();
+            var query = Db.Users.AsQueryable();
+            if (!string.IsNullOrEmpty(parameter.Name))
+            {
+                query = query.Where(e => e.UserName.ToLower().Contains(parameter.Name.ToLower()));
+            }
+            if (!string.IsNullOrEmpty(parameter.DisplayName))
+            {
+                query = query.Where(e => e.DisplayName.ToLower().Contains(parameter.DisplayName.ToLower()));
+            }
+            query = query.OrderBy(e => e.ID).SetPage(parameter.Page);
+            return query.ToList();
         }
 
         /// <summary>
@@ -98,5 +109,18 @@ namespace Wangjianlong.Managers
             var model = Db.Users.Find(id);
             return model;
         }
+
+        public bool Approve(int id,bool approve)
+        {
+            var model = Db.Users.Find(id);
+            if (model == null)
+            {
+                return false;
+            }
+            model.Approve = approve;
+            Db.SaveChanges();
+            return true;
+        }
+
     }
 }

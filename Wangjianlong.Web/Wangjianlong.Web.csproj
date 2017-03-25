@@ -188,6 +188,7 @@
     <Compile Include="Controllers\FitmentItemController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ProjectController.cs" />
+    <Compile Include="Controllers\SecureController.cs" />
     <Compile Include="Controllers\SystemUserController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
@@ -226,6 +227,8 @@
     <Content Include="Content\switch\bootstrap.min.css" />
     <Content Include="Content\token-input.css" />
     <Content Include="favicon.ico" />
+    <Content Include="Fireronzv_dragon_16px_564861_easyicon.net.png" />
+    <Content Include="Fireronzv_dragon_24px_564861_easyicon.net.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="loowootech.png" />
@@ -309,6 +312,9 @@
     <Content Include="Scripts\jquery-1.9.1.min.map" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Views\SystemUser\Create.cshtml" />
+    <Content Include="Views\SystemUser\Index.cshtml" />
+    <Content Include="Views\Secure\Index.cshtml" />
+    <Content Include="Views\User\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -47,6 +47,7 @@ namespace Wangjianlong.Web.Controllers
                     Type=Request.Browser.Type
                 }))
                 {
+                    Core.SecureManager.Logout(Identity.SecureID);
                     HttpContext.ClearAuth();
                     filterContext.HttpContext.Response.Redirect("/user/login");
                 }

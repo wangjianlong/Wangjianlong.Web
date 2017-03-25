@@ -75,6 +75,11 @@ namespace Wangjianlong.Managers
             query = query.OrderBy(e => e.ID).SetPage(parameter.Page);
             return query.ToList();
         }
+
+        public long Count(ProjectParameter parameter)
+        {
+            return Search(parameter).LongCount();
+        }
         public List<Project> Search(string key)
         {
             var query = Db.Projects.Where(e => e.Name.ToLower().Contains(key.ToLower()) || e.Title.ToLower().Contains(key.ToLower())).OrderBy(e=>e.ID).SetPage(new PageParameter(1, 10)).ToList();

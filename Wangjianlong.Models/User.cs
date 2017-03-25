@@ -34,6 +34,8 @@ namespace Wangjianlong.Models
         /// 是否授权登录
         /// </summary>
         public bool Approve { get; set; }
+        [NotMapped]
+        public int SecureID { get; set; }
 
     }
 

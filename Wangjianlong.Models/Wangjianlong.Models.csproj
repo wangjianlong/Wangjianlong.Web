@@ -53,6 +53,8 @@
     <Compile Include="Parameter\ItemProjectPositionParameter.cs" />
     <Compile Include="Parameter\ParameterBase.cs" />
     <Compile Include="Parameter\ProjectParameter.cs" />
+    <Compile Include="Parameter\SecureParameter.cs" />
+    <Compile Include="Parameter\UserParameter.cs" />
     <Compile Include="Position.cs" />
     <Compile Include="Project.cs" />
     <Compile Include="Parameter\PageParameter.cs" />

@@ -1,6 +1,6 @@
 ﻿$(function () {
     $("a[name='Delete']").click(function () {
-        if (confirm("您确定要删除吗?")) {
+        if (confirm("您确定要删除吗?一旦删除无法恢复找回数据")) {
             var node = $(this).parent().parent();
             ShowMessage("正在删除,请稍等......");
             var href = $(this).attr("href");

@@ -1,5 +1,5 @@
 -- --------------------------------------------------------
--- 主机:                           192.168.31.10
+-- 主机:                           10.22.102.32
 -- 服务器版本:                        5.1.73-community - MySQL Community Server (GPL)
 -- 服务器操作系统:                      Win64
 -- HeidiSQL 版本:                  9.4.0.5125
@@ -25,14 +25,13 @@ CREATE TABLE IF NOT EXISTS `fitment` (
   `UserID` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`ID`),
   KEY `UserID` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- 正在导出表  fitment.fitment 的数据：~2 rows (大约)
+-- 正在导出表  fitment.fitment 的数据：~1 rows (大约)
 DELETE FROM `fitment`;
 /*!40000 ALTER TABLE `fitment` DISABLE KEYS */;
 INSERT INTO `fitment` (`ID`, `Name`, `Number`, `Address`, `CreateTime`, `UserID`) VALUES
-	(1, '汪建龙', '007', '浙江省湖州市德清县雷甸镇杨敦村张家埭27号', '2017-03-23 17:04:00', 0),
-	(2, '李向农', '001', '测试', '2017-03-23 19:49:41', 0);
+	(1, '汪建龙', '007', '浙江省湖州市德清县雷甸镇杨敦村张家埭27号', '2017-03-23 17:04:00', 1);
 /*!40000 ALTER TABLE `fitment` ENABLE KEYS */;
 
 -- 导出  表 fitment.fitmentitem 结构
@@ -618,17 +617,33 @@ CREATE TABLE IF NOT EXISTS `secure` (
   `Version` varchar(255) NOT NULL,
   `Platform` varchar(255) NOT NULL,
   `Type` varchar(255) NOT NULL,
+  `Message` varchar(255) NOT NULL,
   PRIMARY KEY (`ID`),
   KEY `UserID` (`UserID`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 
--- 正在导出表  fitment.secure 的数据：~3 rows (大约)
+-- 正在导出表  fitment.secure 的数据：~8 rows (大约)
 DELETE FROM `secure`;
 /*!40000 ALTER TABLE `secure` DISABLE KEYS */;
-INSERT INTO `secure` (`ID`, `UserID`, `LoginTime`, `LogoutTime`, `Address`, `HostName`, `Browser`, `Version`, `Platform`, `Type`) VALUES
-	(1, 1, '0001-01-01 00:00:00', NULL, '10.22.102.162', '10.22.102.162', 'Chrome', '45.0', 'WinNT', 'Chrome45'),
-	(2, 1, '0001-01-01 00:00:00', NULL, '10.22.102.3', '10.22.102.3', 'Chrome', '45.0', 'WinNT', 'Chrome45'),
-	(3, 1, '2017-03-24 20:59:10', NULL, '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45');
+INSERT INTO `secure` (`ID`, `UserID`, `LoginTime`, `LogoutTime`, `Address`, `HostName`, `Browser`, `Version`, `Platform`, `Type`, `Message`) VALUES
+	(1, 1, '0001-01-01 00:00:00', NULL, '10.22.102.162', '10.22.102.162', 'Chrome', '45.0', 'WinNT', 'Chrome45', ''),
+	(2, 1, '0001-01-01 00:00:00', NULL, '10.22.102.3', '10.22.102.3', 'Chrome', '45.0', 'WinNT', 'Chrome45', ''),
+	(3, 1, '2017-03-24 20:59:10', NULL, '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45', ''),
+	(4, 1, '2017-03-25 12:31:56', NULL, '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45', ''),
+	(5, 1, '2017-03-25 13:06:06', NULL, '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45', ''),
+	(6, 1, '2017-03-25 13:17:08', NULL, '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45', ''),
+	(7, 1, '2017-03-25 13:24:47', NULL, '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45', ''),
+	(8, 1, '2017-03-25 13:36:53', NULL, '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45', ''),
+	(9, 1, '2017-03-25 13:45:34', NULL, '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45', ''),
+	(10, 1, '2017-03-25 13:45:46', NULL, '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45', ''),
+	(11, 1, '2017-03-25 13:46:32', NULL, '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45', ''),
+	(12, 2, '2017-03-25 14:08:00', NULL, '::1', '::1', 'Chrome', '51.0', 'WinNT', 'Chrome51', ''),
+	(13, 2, '2017-03-25 14:08:26', NULL, '::1', '::1', 'Chrome', '51.0', 'WinNT', 'Chrome51', ''),
+	(14, 1, '2017-03-25 14:16:00', '2017-03-25 14:16:06', '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45', ''),
+	(15, 2, '2017-03-25 14:16:20', '2017-03-25 14:31:35', '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45', ''),
+	(16, 1, '2017-03-25 14:44:02', '2017-03-25 14:54:02', '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45', ''),
+	(17, 1, '2017-03-25 14:54:11', '2017-03-25 15:06:09', '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45', ''),
+	(18, 1, '2017-03-25 15:06:39', NULL, '::1', '::1', 'Chrome', '45.0', 'WinNT', 'Chrome45', '');
 /*!40000 ALTER TABLE `secure` ENABLE KEYS */;
 
 -- 导出  表 fitment.user 结构
@@ -640,13 +655,14 @@ CREATE TABLE IF NOT EXISTS `user` (
   `Role` bit(4) NOT NULL DEFAULT b'0',
   `Approve` bit(1) NOT NULL DEFAULT b'0',
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- 正在导出表  fitment.user 的数据：~1 rows (大约)
 DELETE FROM `user`;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`ID`, `UserName`, `Password`, `DisplayName`, `Role`, `Approve`) VALUES
-	(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '管理员', b'0011', b'1');
+	(1, 'admin', '21232f297a57a5a743894a0e4a801fc3', '管理员', b'0011', b'1'),
+	(2, 'wjl', 'e10adc3949ba59abbe56e057f20f883e', '汪建龙', b'0010', b'1');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 -- 导出  视图 fitment.item_project_position 结构

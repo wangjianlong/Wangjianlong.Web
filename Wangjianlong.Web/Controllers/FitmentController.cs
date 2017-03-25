@@ -14,11 +14,17 @@ namespace Wangjianlong.Web.Controllers
     public class FitmentController : ControllerBase
     {
         // GET: Fitment
-        public ActionResult Index(int page=1,int rows=20)
+        public ActionResult Index(string name=null,string number=null,string address=null,DateTime?startTime=null,DateTime? EndTime=null, int page=1,int rows=20)
         {
             var parameter = new FitmentParameter
             {
-                Page = new PageParameter(page, rows)
+                Name=name,
+                Number=number,
+                Address=address,
+                StartTime=startTime,
+                EndTime=EndTime,
+                Page = new PageParameter(page, rows),
+                UserID=Identity.UserID
             };
             var list = Core.FitmentManager.Search(parameter);
             ViewBag.List = list;
@@ -149,6 +155,19 @@ namespace Wangjianlong.Web.Controllers
             ms.Flush();
             byte[] fileContents = ms.ToArray();
             return File(fileContents, "application/ms-excel", string.Format("{0}.xls", fitment.Name));
+        }
+
+        public ActionResult Delete(int id)
+        {
+            if (Core.FitmentManager.Used(id))
+            {
+                return ErrorJsonResult("当前存在关联位置信息，无法删除");
+            }
+            if (!Core.FitmentManager.Delete(id))
+            {
+                return ErrorJsonResult("删除失败，未找到删除的信息");
+            }
+            return SuccessJsonResult();
         }
     }
 }

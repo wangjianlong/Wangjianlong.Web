@@ -6,3 +6,26 @@
 
 <h2>&nbsp; 您好！@(Identity.Role.GetDescription())</h2>
 
+<div class="row">
+    <div class="col-md-12">
+        <div class="col-md-6">
+            <blockquote>
+                <p><a href="/Fitment"><i class="glyphicon glyphicon-inbox"></i>&nbsp;装修表单管理</a></p>
+                <footer>@string.Format("记录：{0}",ViewBag.FCount)</footer>
+            </blockquote>
+        </div>
+        <div class="col-md-6">
+            <blockquote>
+                <p><a href="/Project"><i class="glyphicon glyphicon-flag"></i>&nbsp;装修项目管理</a></p>
+                <footer>@string.Format("记录:{0}",ViewBag.PCount)</footer>
+            </blockquote>
+        </div>
+        <div class="col-md-6">
+            <blockquote>
+                <p><a href="/Secure"><i class="glyphicon glyphicon-cloud"></i>&nbsp;安全管理</a></p>
+                <footer>@string.Format("记录:{0}",ViewBag.SCount)</footer>
+            </blockquote>
+        </div>
+    </div>
+</div>
+

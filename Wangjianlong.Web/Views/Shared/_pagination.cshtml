@@ -46,7 +46,7 @@
     }
     <li><a href="@(GetPageLink(pageCount))">尾页</a></li>
     <li class="disabled"><a href="">@(page.PageIndex)/@(pageCount)</a></li>
-
+    <li class="disabled"><a href="">@string.Format("总数：{0}",page.RecordCount)</a></li>
 </ul>
 
 

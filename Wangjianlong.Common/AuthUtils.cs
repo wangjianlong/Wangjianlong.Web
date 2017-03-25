@@ -10,7 +10,7 @@ namespace Wangjianlong.Common
         private const string _cookieName = "Wangjianlong";
         public static string GenerateToken(this HttpContextBase context,User user)
         {
-            var ticket = new FormsAuthenticationTicket(1, user.ID + "|" + user.UserName + "|" + user.DisplayName+"|"+user.Role, DateTime.Now, DateTime.Now.AddHours(8), true, "user_token");
+            var ticket = new FormsAuthenticationTicket(1, user.ID + "|" + user.UserName + "|" + user.DisplayName+"|"+user.Role+"|"+user.SecureID, DateTime.Now, DateTime.Now.AddHours(8), true, "user_token");
             var token = FormsAuthentication.Encrypt(ticket);
             return token;
         }
@@ -53,7 +53,7 @@ namespace Wangjianlong.Common
                 if (ticket != null && !string.IsNullOrEmpty(ticket.Name))
                 {
                     var values = ticket.Name.Split('|');
-                    if (values.Length == 4)
+                    if (values.Length == 5)
                     {
                         UserRole role;
                         Enum.TryParse<UserRole>(values[3], out role);
@@ -62,7 +62,8 @@ namespace Wangjianlong.Common
                             UserID = int.Parse(values[0]),
                             Name = values[1],
                             DisplayName = values[2],
-                            Role = role
+                            Role = role,
+                            SecureID = int.Parse(values[4])
                         };
                     }
                 }

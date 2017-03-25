@@ -40,6 +40,7 @@ namespace Wangjianlong.Models
         public string Version { get; set; }
         public string Platform { get; set; }
         public string Type { get; set; }
+        public string Message { get; set; }
 
         public bool IsEqual(SecureBase obj)
         {

@@ -22,6 +22,7 @@ namespace Wangjianlong.Common
         public int UserID { get; set; }
         public string Name { get; set; }
         public string DisplayName { get; set; }
+        public int SecureID { get; set; }
         public UserRole Role { get; set; }
         public string AuthenticationType { get { return "Web.Session"; } }
         public bool IsAuthenticated { get { return UserID > 0; } }
