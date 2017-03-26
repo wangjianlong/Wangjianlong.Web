@@ -1,6 +1,7 @@
 ﻿@{ 
     Layout = null;
     Position position = ViewBag.Model;
+    int cityID = ViewBag.CityID;
 }
 
 <h3 >&nbsp;添加项目</h3>
@@ -38,8 +39,10 @@
                                 <tr>
                                     <th>缩写</th>
                                     <th>项目</th>
-                                    <th>单价</th>
+                                    <th>单价【元】</th>
+                                    <th>单位</th>
                                     <th>数量</th>
+                                    <th>成新【%】</th>
                                     <th>操作</th>
                                 </tr>
                             </thead>
@@ -48,6 +51,11 @@
                             </tbody>
                         </table>
                         <div class="panel-body">
+                            <blockquote class="blockquote-reverse">
+                                <p>请正确填写数量，如不正确系统忽略该项目；</p>
+                                <p> 成新的值为0~100之间,如填写的值超出范围，系统自动忽略项目;</p>
+                               
+                            </blockquote>
                             <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-ok"></i>&nbsp;保存</button>
                         </div>
                     </div>
@@ -73,8 +81,14 @@
                     <input type="text" name="" class="form-control" value="{Price}" readonly />
                 </td>
                 <td>
+                    <input type="text" name="" class="form-control" value="{Unit}" readonly />
+                </td>
+                <td>
                     <input type="hidden" name="ProjectID" value="{ID}" />
                     <input type="text" name="Number" class="form-control" value="" />
+                </td>
+                <td>
+                    <input type="text" name="NewOld" class="form-control" value="100" max="100" min="0" />
                 </td>
                 <td>
                     <button type="button" class="btn btn-danger btn-xs" name="Remove"><i class="glyphicon glyphicon-remove" ></i></button>
@@ -95,18 +109,19 @@
     function ShowResult(key) {
         console.log(key);
         var result = $("#OUT");
-        $.getJSON("/Project/Search?key=" + key, null, function (data) {
+        $.getJSON("/Project/Search?cityID=@(cityID)&&key=" + key, null, function (data) {
             result.empty();
             $.each(data, function (key, val) {
                 console.log(val.Name);
-                result.append(' <button type="button" class="list-group-item" name="Add" Val="'+val.Name+'" key="'+val.ID+'" Title="'+val.Title+'" Price="'+val.Price+"元/"+val.Unit+'" >缩写：'+val.Title+'； 全称：'+val.Name+'；单价：'+val.Price+'元/'+val.Unit+'</button>')
+                result.append(' <button type="button" class="list-group-item" name="Add" Val="'+val.Name+'" key="'+val.ID+'" Title="'+val.Title+'" Price="'+val.Price+'" Unit="'+val.Unit+'" >缩写：'+val.Title+'； 全称：'+val.Name+'；单价：'+val.Price+'元/'+val.Unit+'</button>')
             });
             $("button[type='button'][name='Add']").unbind("click").bind("click", function () {
                 var title = $(this).attr("Title");
                 var Price = $(this).attr("Price");
-                var name=$(this).attr("Val");
+                var name = $(this).attr("Val");
+                var unit = $(this).attr("Unit");
                 var id=$(this).attr("key");
-                var addhtml = appendHtml.replace("{Title}", title).replace("{Price}", Price).replace("{Name}", name).replace("{ID}", id);
+                var addhtml = appendHtml.replace("{Title}", title).replace("{Price}", Price).replace("{Name}", name).replace("{ID}", id).replace("{Unit}", unit);
                 $("tbody[name='Items']").append(addhtml);
 
                 $("button[type='button'][name='Remove']").unbind("click").bind("click", function () {

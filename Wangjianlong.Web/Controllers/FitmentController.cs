@@ -36,6 +36,8 @@ namespace Wangjianlong.Web.Controllers
         {
             var model = Core.FitmentManager.Get(id);
             ViewBag.Model = model;
+            var citys = Core.CityManager.GetList();
+            ViewBag.Citys = citys;
             return View();
         }
 
@@ -46,7 +48,12 @@ namespace Wangjianlong.Web.Controllers
             {
                 return ErrorJsonResult("未获取装修表单信息");
             }
-    
+
+            var city = Core.CityManager.Get(fitment.CityID);
+            if (city == null)
+            {
+                return ErrorJsonResult("未找到所属城市信息");
+            }
             if (fitment.ID > 0)
             {
                 if (!Core.FitmentManager.Edit(fitment))

@@ -19,12 +19,13 @@ namespace Wangjianlong.Models
         public int Price { get; set; }
         public string Unit { get; set; }
         public double Number { get; set; }
+        public double NewOld { get; set; }
         [NotMapped]
         public double Sum
         {
             get
             {
-                return Price * Number; 
+                return Price * Number*NewOld/100; 
             }
         }
         public int PositionID { get; set; }

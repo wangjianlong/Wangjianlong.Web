@@ -48,7 +48,7 @@ namespace Wangjianlong.Common
                     
                         var cell = ExcelManager.GetCell(row, 0,modelRow);
                         cell.SetCellValue(entry.Key.GetDescription());
-                        sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(line, line, 0, 5));
+                        sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(line, line, 0, 7));
                         line++;
                         foreach (var position in entry.Value)
                         {
@@ -65,11 +65,13 @@ namespace Wangjianlong.Common
                                 }
                                 line++;
                                 ExcelManager.GetCell(row, 0,modelRow).SetCellValue(serial++);
-                                ExcelManager.GetCell(row, 1,modelRow).SetCellValue(string.Format("{0}({1})",item.Name,item.Unit));
+                                ExcelManager.GetCell(row, 1,modelRow).SetCellValue(item.Name);
                                 ExcelManager.GetCell(row, 2,modelRow).SetCellValue(item.Price);
                                 ExcelManager.GetCell(row, 3,modelRow).SetCellValue(item.Number);
-                                ExcelManager.GetCell(row, 4,modelRow).SetCellValue(item.Sum);
-                                ExcelManager.GetCell(row, 5, modelRow);
+                                ExcelManager.GetCell(row, 4, modelRow).SetCellValue(item.Unit);
+                                ExcelManager.GetCell(row, 5, modelRow).SetCellValue(string.Format("{0}%", item.NewOld));
+                                ExcelManager.GetCell(row, 6,modelRow).SetCellValue(item.Sum);
+                                ExcelManager.GetCell(row, 7, modelRow);
                                 merge += item.Sum;
                             }
                             row = sheet.GetRow(line);
@@ -78,14 +80,14 @@ namespace Wangjianlong.Common
                                 row = sheet.CreateRow(line);
                             }
                             ExcelManager.GetCell(row, 0,modelRow).SetCellValue("合计");
-                            for(var i = 1; i < 4; i++)
+                            for(var i = 1; i < 6; i++)
                             {
                                 ExcelManager.GetCell(row, i, modelRow);
                             }
-                            ExcelManager.GetCell(row, 4,modelRow).SetCellValue(merge);
+                            ExcelManager.GetCell(row, 6,modelRow).SetCellValue(merge);
                             row = sheet.GetRow(startline);
-                            ExcelManager.GetCell(row, 5,modelRow).SetCellValue(position.Name);
-                            sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(startline, line, 5, 5));
+                            ExcelManager.GetCell(row, 7,modelRow).SetCellValue(position.Name);
+                            sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(startline, line, 7, 7));
                             line++;
                         }
                     }

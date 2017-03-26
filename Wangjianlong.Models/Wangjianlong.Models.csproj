@@ -45,6 +45,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="City.cs" />
     <Compile Include="Daily.cs" />
     <Compile Include="Fitment.cs" />
     <Compile Include="FitmentItem.cs" />

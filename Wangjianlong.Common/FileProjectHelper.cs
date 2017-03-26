@@ -10,7 +10,7 @@ namespace Wangjianlong.Common
 {
     public static class FileProjectHelper
     {
-        private static Project AnalyzeProject(IRow row)
+        private static Project AnalyzeProject(IRow row,int cityID)
         {
             var cells = row.GetCells(0, 4);
             if (cells == null)
@@ -28,11 +28,12 @@ namespace Wangjianlong.Common
                 Title = title,
                 Name = cells[2].ToString().Trim(),
                 Price = int.TryParse(cells[3].ToString().Trim(), out a) ? a : 0,
-                Unit = cells[4].ToString().Trim()
+                Unit = cells[4].ToString().Trim(),
+                CityID=cityID
             };
             return model;
         }
-        public static List<Project> AnalyzeProject(string filePath)
+        public static List<Project> AnalyzeProject(string filePath,int cityID)
         {
             var list = new List<Project>();
             IWorkbook workbook = filePath.OpenExcel();
@@ -48,7 +49,7 @@ namespace Wangjianlong.Common
                         {
                             continue;
                         }
-                        var model = AnalyzeProject(row);
+                        var model = AnalyzeProject(row,cityID);
                         if (model != null)
                         {
                             list.Add(model);

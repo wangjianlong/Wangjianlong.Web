@@ -20,6 +20,10 @@ namespace Wangjianlong.Models
         public virtual Project Project { get; set; }
         public double Number { get; set; }
         public int PositionID { get; set; }
+        /// <summary>
+        /// 成新
+        /// </summary>
+        public double NewOld { get; set; }
         public virtual Position Position { get; set; }
     }
 }

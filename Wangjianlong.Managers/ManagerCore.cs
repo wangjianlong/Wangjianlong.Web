@@ -25,6 +25,8 @@ namespace Wangjianlong.Managers
         public FitmentItemManager FitmentItemManager { get { return _fitmentItemManager == null ? _fitmentItemManager = new FitmentItemManager() : _fitmentItemManager; } }
         private ItemProjectPositionManager _itemProjectPositionManager { get; set; }
         public ItemProjectPositionManager ItemProjectPositionManager { get { return _itemProjectPositionManager == null ? _itemProjectPositionManager = new ItemProjectPositionManager() : _itemProjectPositionManager; } }
+        private CityManager _cityManager { get; set; }
+        public CityManager CityManager { get { return _cityManager == null ? _cityManager = new CityManager() : _cityManager; } }
 
     }
 }

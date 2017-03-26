@@ -53,6 +53,7 @@
                         <th>户名</th>
                         <th>编号</th>
                         <th>地址</th>
+                        <th>所属城市</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -64,6 +65,7 @@
                             </td>
                             <td>@(item.Number)</td>
                             <td>@(item.Address)</td>
+                            <td>@(item.City!=null?item.City.Name:"未获取城市信息")</td>
                         </tr>
                     }
                 </tbody>

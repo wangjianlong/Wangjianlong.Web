@@ -30,5 +30,7 @@ namespace Wangjianlong.Models
         /// 单位
         /// </summary>
         public string Unit { get; set; }
+        public int CityID { get; set; }
+        public virtual City City { get; set; }
     }
 }

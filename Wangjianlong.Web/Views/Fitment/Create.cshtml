@@ -1,6 +1,7 @@
 ﻿@{ 
     Layout = null;
     Fitment fitment = ViewBag.Model;
+    List<City> citys = ViewBag.Citys;
 }
 
 
@@ -33,6 +34,27 @@
                 <label class="control-label col-md-4">&nbsp;地址：</label>
                 <div class="col-md-7">
                     <textarea name="Address" class="form-control" rows="3">@(fitment!=null?fitment.Address:"")</textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="control-label col-md-4">&nbsp;项目所属城市：</label>
+                <div class="col-md-7">
+                    @if (fitment != null && fitment.CityID > 0)
+                    {
+                        <input type="hidden" name="CityID" value="@(fitment.CityID)"/>
+                        <input type="text" value="@string.Format("{0}（所属城市不能更改，如需更改请新建表单）",fitment.City!=null?fitment.City.Name:"未获取城市信息")" class="form-control" readonly />
+                    }
+                    else
+                    {
+                        <select name="CityID" class="form-control">
+                            <option value="">请选择</option>
+                            @foreach (var city in citys)
+                            {
+                                <option value="@(city.ID)" @(fitment != null && fitment.CityID == city.ID ? "selected=selected" : "")>@(city.Name)</option>
+                            }
+                        </select>
+                    }
+        
                 </div>
             </div>
             <div class="form-group">

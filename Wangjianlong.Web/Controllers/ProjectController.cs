@@ -12,7 +12,11 @@ namespace Wangjianlong.Web.Controllers
     public class ProjectController : ControllerBase
     {
         // GET: Project
-        public ActionResult Index(string title=null,string name=null,int? minPrice=null,int? maxPrice=null, int page=1,int rows=20)
+        public ActionResult Index(
+            string title=null,string name=null,
+            int? minPrice=null,int? maxPrice=null,
+            int?CityID=null,
+            int page=1,int rows=20)
         {
             var parameter = new ProjectParameter
             {
@@ -20,8 +24,11 @@ namespace Wangjianlong.Web.Controllers
                 Name = name,
                 MinPrice = minPrice,
                 MaxPrice = maxPrice,
+                CityID=CityID,
                 Page = new PageParameter(page, rows)
             };
+            var citys = Core.CityManager.GetList();
+            ViewBag.Citys = citys;
             var list = Core.ProjectManager.Search(parameter);
             ViewBag.List = list;
             ViewBag.Parameter = parameter;
@@ -30,12 +37,19 @@ namespace Wangjianlong.Web.Controllers
 
         public ActionResult File()
         {
+            var citys = Core.CityManager.GetList();
+            ViewBag.Citys = citys;
             return View();
         }
 
         [HttpPost]
-        public ActionResult AnalyzeFile()
+        public ActionResult AnalyzeFile(int cityID)
         {
+            var city = Core.CityManager.Get(cityID);
+            if (city == null)
+            {
+                throw new ArgumentException("请选择所属城市");
+            }
             if (Request.Files.Count == 0)
             {
                 throw new ArgumentException("请上传文件");
@@ -47,19 +61,20 @@ namespace Wangjianlong.Web.Controllers
                 throw new ArgumentException("请上传文件");
             }
             var filePath = FileManager.Upload(file);
-            var list = FileProjectHelper.AnalyzeProject(filePath);
+            var list = FileProjectHelper.AnalyzeProject(filePath,cityID);
             Core.ProjectManager.AddRange(list);
             return RedirectToAction("Index");
         }
 
-        public ActionResult AddList(int positionId)
+        public ActionResult AddList(int positionId,int cityID)
         {
             var position = Core.PositionManager.Get(positionId);
             ViewBag.Model = position;
+            ViewBag.CityID = cityID;
             return View();
         }
 
-        public ActionResult Search(string key)
+        public ActionResult Search(string key,int cityID)
         {
             List<Project> list;
             if (string.IsNullOrEmpty(key))
@@ -68,7 +83,7 @@ namespace Wangjianlong.Web.Controllers
             }
             else
             {
-                list = Core.ProjectManager.Search(key);
+                list = Core.ProjectManager.Search(key,cityID);
                 //var parameter = new ProjectParameter
                 //{
                 //    Title = key,

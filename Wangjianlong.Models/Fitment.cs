@@ -26,5 +26,8 @@ namespace Wangjianlong.Models
         public string Address { get; set; }
         public DateTime CreateTime { get; set; }
         public int UserID { get; set; }
+        public int CityID { get; set; }
+        public virtual City City { get; set; }
+        public virtual List<Position> Positions { get; set; }
     }
 }

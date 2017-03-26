@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "城市管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<City> list = ViewBag.List;
+    var serial = 1;
+}
+
+<h2>
+    &nbsp;城市管理
+    <a class="btn btn-primary" href="/City/create" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp; 添加城市</a>  
+</h2>
+@{ 
+    Html.RenderPartial("_Message");
+}
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>序号</th>
+            <th>城市名称</th>
+            <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var item in list)
+        {
+            <tr>
+                <td>@(serial++)</td>
+                <td>@(item.Name)</td>
+                <td>
+                    <a class="btn btn-primary btn-xs" href="/City/create?id=@(item.ID)" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-edit"></i>&nbsp; 编辑</a>  
+                    <a class="btn btn-danger btn-xs" href="/City/delete?id=@(item.ID)" name="Delete"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp; 删除</a>  
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+

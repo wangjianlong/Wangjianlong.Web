@@ -14,12 +14,16 @@
                 <footer>@string.Format("记录：{0}",ViewBag.FCount)</footer>
             </blockquote>
         </div>
-        <div class="col-md-6">
-            <blockquote>
-                <p><a href="/Project"><i class="glyphicon glyphicon-flag"></i>&nbsp;装修项目管理</a></p>
-                <footer>@string.Format("记录:{0}",ViewBag.PCount)</footer>
-            </blockquote>
-        </div>
+        @if (Identity.Role == UserRole.Administrator)
+        {
+            <div class="col-md-6">
+                <blockquote>
+                    <p><a href="/Project"><i class="glyphicon glyphicon-flag"></i>&nbsp;装修项目管理</a></p>
+                    <footer>@string.Format("记录:{0}", ViewBag.PCount)</footer>
+                </blockquote>
+            </div>
+        }
+
         <div class="col-md-6">
             <blockquote>
                 <p><a href="/Secure"><i class="glyphicon glyphicon-cloud"></i>&nbsp;安全管理</a></p>

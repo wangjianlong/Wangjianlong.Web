@@ -30,6 +30,10 @@ namespace Wangjianlong.Managers
             {
                 return false;
             }
+            if (model.CityID != fitment.CityID)
+            {
+                
+            }
             Db.Entry(model).CurrentValues.SetValues(fitment);
             Db.SaveChanges();
             return true;

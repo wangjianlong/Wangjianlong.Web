@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CityManager.cs" />
     <Compile Include="DailyManager.cs" />
     <Compile Include="DataBaseDbContext.cs" />
     <Compile Include="FitmentItemManager.cs" />

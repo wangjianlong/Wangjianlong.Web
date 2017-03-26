@@ -28,5 +28,6 @@ namespace Wangjianlong.Managers
         public DbSet<Position> Positions { get; set; }
         public DbSet<FitmentItem> FitmentItems { get; set; }
         public DbSet<ItemProjectPosition> ItemProjectPositions { get; set; }
+        public DbSet<City> Citys { get; set; }
     }
 }

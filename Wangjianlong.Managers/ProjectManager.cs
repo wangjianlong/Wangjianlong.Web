@@ -62,6 +62,10 @@ namespace Wangjianlong.Managers
             {
                 query = query.Where(e => e.Name.ToLower().Contains(parameter.Name.ToLower()));
             }
+            if (parameter.CityID.HasValue)
+            {
+                query = query.Where(e => e.CityID == parameter.CityID.Value);
+            }
 
             if (parameter.MinPrice.HasValue)
             {
@@ -80,9 +84,9 @@ namespace Wangjianlong.Managers
         {
             return Search(parameter).LongCount();
         }
-        public List<Project> Search(string key)
+        public List<Project> Search(string key,int cityID)
         {
-            var query = Db.Projects.Where(e => e.Name.ToLower().Contains(key.ToLower()) || e.Title.ToLower().Contains(key.ToLower())).OrderBy(e=>e.ID).SetPage(new PageParameter(1, 10)).ToList();
+            var query = Db.Projects.Where(e=>e.CityID==cityID).Where(e => e.Name.ToLower().Contains(key.ToLower()) || e.Title.ToLower().Contains(key.ToLower())).OrderBy(e=>e.ID).SetPage(new PageParameter(1, 10)).ToList();
             return query;
         }
         

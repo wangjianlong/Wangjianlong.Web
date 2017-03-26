@@ -12,5 +12,6 @@ namespace Wangjianlong.Models.Parameter
         public string Name { get; set; }
         public int? MinPrice { get; set; }
         public int? MaxPrice { get; set; }
+        public int? CityID { get; set; }
     }
 }

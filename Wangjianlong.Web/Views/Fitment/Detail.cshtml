@@ -61,17 +61,23 @@
                     <td>@(fitment.Name)</td>
                     <th>编号</th>
                     <td colspan="4">@(fitment.Number)</td>
+                    <th>所属城市</th>
+                    <td>@(fitment.City!=null?fitment.City.Name:"未获取城市信息")</td>
                 </tr>
                 <tr>
                     <th>地址</th>
                     <td colspan="6">@(fitment.Address)</td>
+                    <th>创建时间</th>
+                    <td>@(fitment.CreateTime.ToString())</td>
                 </tr>
                 <tr>
                     <th>位置</th>
                     <th>序号</th>
                     <th>项目</th>
-                    <th>单价</th>
+                    <th>单价【元】</th>
                     <th>数量</th>
+                    <th>单位</th>
+                    <th>成新【%】</th>
                     <th>补偿价值【元】</th>
                     <th>操作</th>
                 </tr>
@@ -79,7 +85,7 @@
                 {
 
                     <tr>
-                        <th colspan="7"><h4 class="text-center">@(item.Key.GetDescription())</h4> </th>
+                        <th colspan="9"><h4 class="text-center">@(item.Key.GetDescription())</h4> </th>
                     </tr>
                     foreach(var position in item.Value)
                     {
@@ -87,7 +93,7 @@
                         <tr>
                             <th rowspan="@(itemprojects.Count+1)">
                                 @(position.Name)
-                                <a href="/Project/AddList?positionId=@(position.ID)" name="AddList" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;添加项目</a>
+                                <a href="/Project/AddList?positionId=@(position.ID)&&cityID=@(fitment.CityID)" name="AddList" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;添加项目</a>
                                 <a href="/fitment/CreatePosition?id=@(position.ID)" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-edit"></i>&nbsp;编辑</a>
                                 <a href="/fitment/DeletePosition?id=@(position.ID)" class="btn btn-danger btn-xs" name="Delete"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;删除</a>
                             </th>
@@ -99,6 +105,8 @@
                                 <td>@string.Format("{0}（{1}）",entey.Name,entey.Title)</td>
                                 <td>@(entey.Price)</td>
                                 <td>@(entey.Number)</td>
+                                <td>@(entey.Unit)</td>
+                                <td>@(entey.NewOld)</td>
                                 <td>
                                     @(entey.Sum)
                                 </td>
