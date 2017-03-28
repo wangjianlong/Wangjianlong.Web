@@ -176,5 +176,32 @@ namespace Wangjianlong.Web.Controllers
             }
             return SuccessJsonResult();
         }
+
+        public ActionResult NewOld(int id)
+        {
+            var model = Core.FitmentManager.Get(id);
+            ViewBag.Model = model;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult SaveNewOld(int fitmentId, double newOld)
+        {
+            if (newOld < 0 || newOld > 100)
+            {
+                return ErrorJsonResult("成新应该是在0到100之间的数值，请填写正确的数值");
+            }
+            try
+            {
+                var itemprojectposition = Core.ItemProjectPositionManager.GetFitmentID(fitmentId);
+                Core.FitmentItemManager.SetNewOld(itemprojectposition, newOld);
+            }
+            catch(Exception ex)
+            {
+                return ErrorJsonResult(ex.Message);
+            }
+        
+            return SuccessJsonResult();
+        }
     }
 }

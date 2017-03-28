@@ -318,6 +318,7 @@
     <Content Include="Views\User\ChangePassword.cshtml" />
     <Content Include="Views\City\Create.cshtml" />
     <Content Include="Views\City\Index.cshtml" />
+    <Content Include="Views\Fitment\NewOld.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -55,5 +55,24 @@ namespace Wangjianlong.Managers
             var model = Db.FitmentItems.Find(id);
             return model;
         }
+        public bool SetNewOld(int id,double newold)
+        {
+            var model = Db.FitmentItems.Find(id);
+            if (model == null)
+            {
+                return false;
+            }
+            model.NewOld = newold;
+            Db.SaveChanges();
+            return true;
+        }
+
+        public void SetNewOld(List<ItemProjectPosition> list,double newold)
+        {
+            foreach(var item in list)
+            {
+                SetNewOld(item.ID, newold);
+            }
+        }
     }
 }
