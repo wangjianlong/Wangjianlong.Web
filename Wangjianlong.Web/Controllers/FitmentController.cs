@@ -63,7 +63,7 @@ namespace Wangjianlong.Web.Controllers
             }
             else
             {
-                if (Core.FitmentManager.Exist(fitment.Name))
+                if (Core.FitmentManager.Exist(fitment.Name,fitment.Number))
                 {
                     return ErrorJsonResult(string.Format("系统中已存在装修表单名称为{0}", fitment.Name));
                 }

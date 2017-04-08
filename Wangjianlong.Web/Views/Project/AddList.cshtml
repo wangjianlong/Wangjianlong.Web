@@ -53,7 +53,8 @@
                         <div class="panel-body">
                             <blockquote class="blockquote-reverse">
                                 <p>请正确填写数量，如不正确系统忽略该项目；</p>
-                                <p> 成新的值为0~100之间,如填写的值超出范围，系统自动忽略项目;</p>
+                                <p>填写数量中，可直接输入公式，如: 1+2*3+(6/2+2);(取两位小数位)</p>
+                                <p>成新的值为0~100之间,如填写的值超出范围，系统自动忽略项目;</p>
                                
                             </blockquote>
                             <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-ok"></i>&nbsp;保存</button>
@@ -85,7 +86,7 @@
                 </td>
                 <td>
                     <input type="hidden" name="ProjectID" value="{ID}" />
-                    <input type="text" name="Number" class="form-control" value="" />
+                    <input type="text" name="Formula" class="form-control" value="" />
                 </td>
                 <td>
                     <input type="text" name="NewOld" class="form-control" value="100" max="100" min="0" />

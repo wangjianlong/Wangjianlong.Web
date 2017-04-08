@@ -24,9 +24,9 @@ namespace Wangjianlong.Models
 
     public enum Category
     {
-        [Description("装修")]
+        [Description("装潢")]
         Fitment,
-        [Description("附属品")]
+        [Description("附属物")]
         Appendix
     }
 }

@@ -15,7 +15,7 @@ namespace Wangjianlong.Web.Controllers
         public ActionResult Index(
             string title=null,string name=null,
             int? minPrice=null,int? maxPrice=null,
-            int?CityID=null,
+            int?CityID=null,ProjectOrder order=ProjectOrder.City,
             int page=1,int rows=20)
         {
             var parameter = new ProjectParameter
@@ -25,6 +25,7 @@ namespace Wangjianlong.Web.Controllers
                 MinPrice = minPrice,
                 MaxPrice = maxPrice,
                 CityID=CityID,
+                Order=order,
                 Page = new PageParameter(page, rows)
             };
             var citys = Core.CityManager.GetList();
@@ -34,6 +35,83 @@ namespace Wangjianlong.Web.Controllers
             ViewBag.Parameter = parameter;
             return View();
         }
+
+        public ActionResult Create(int id = 0)
+        {
+            var model = Core.ProjectManager.Get(id);
+            ViewBag.Model = model;
+            if (model == null)
+            {
+                ViewBag.Citys = Core.CityManager.GetList();
+            }
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Save(Project project)
+        {
+            if (project == null)
+            {
+                return ErrorJsonResult("未获取项目相关信息");
+            }
+            if (project.CityID <= 0)
+            {
+                return ErrorJsonResult("请选择项目所属城市");
+            }
+            else
+            {
+                var city = Core.CityManager.Get(project.CityID);
+                if (city == null)
+                {
+                    return ErrorJsonResult("当前选择城市已经删除，请查看城市管理");
+                }
+            }
+
+            if (project.Price <= 0)
+            {
+                return ErrorJsonResult("单价不能小于等于0");
+            }
+            if(string.IsNullOrEmpty(project.Title)
+                ||string.IsNullOrEmpty(project.Name)
+                || string.IsNullOrEmpty(project.Unit))
+            {
+                return ErrorJsonResult("项目缩写、项目名称、项目单位不能为空");
+            }
+            if (Core.ProjectManager.Exist(project.Title, project.Name, project.Price, project.Unit))
+            {
+                return ErrorJsonResult("当前系统中已存在相同的项目信息");
+            }
+            if (project.ID > 0)
+            {
+                if (!Core.ProjectManager.Edit(project))
+                {
+                    return ErrorJsonResult("编辑项目信息失败，未找到编辑的项目信息");
+                }
+            }
+            else
+            {
+                var id = Core.ProjectManager.Save(project);
+                if (id <= 0)
+                {
+                    return ErrorJsonResult("保存项目信息失败");
+                }
+            }
+            return SuccessJsonResult();
+        }
+        public ActionResult Delete(int id)
+        {
+            if (Core.ProjectManager.Used(id))
+            {
+                return ErrorJsonResult("删除失败，当前项目已作为表单使用");
+            }
+            if (!Core.ProjectManager.Delete(id))
+            {
+                return ErrorJsonResult("删除失败，未找到相关删除信息");
+            }
+
+            return SuccessJsonResult();
+        }
+
 
         public ActionResult File()
         {

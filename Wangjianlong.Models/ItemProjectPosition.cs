@@ -18,6 +18,7 @@ namespace Wangjianlong.Models
         public string Name { get; set; }
         public int Price { get; set; }
         public string Unit { get; set; }
+        public string Formula { get; set; }
         public double Number { get; set; }
         public double NewOld { get; set; }
         [NotMapped]

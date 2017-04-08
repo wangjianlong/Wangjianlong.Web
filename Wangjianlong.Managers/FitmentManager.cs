@@ -35,9 +35,9 @@ namespace Wangjianlong.Managers
             return true;
         }
 
-        public bool Exist(string name)
+        public bool Exist(string name,string number)
         {
-            return Db.Fitments.Any(e => e.Name.ToLower() == name.ToLower());
+            return Db.Fitments.Any(e => e.Name.ToLower() == name.ToLower()&&e.Number.ToLower()==number.ToLower());
         }
 
 

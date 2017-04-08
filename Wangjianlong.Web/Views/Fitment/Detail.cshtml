@@ -105,7 +105,12 @@
                                 <td>@(serial++)</td>
                                 <td>@string.Format("{0}（{1}）",entey.Name,entey.Title)</td>
                                 <td>@(entey.Price)</td>
-                                <td>@(entey.Number)</td>
+                                <td>
+                                    <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="@(entey.Formula)">
+                                        @(entey.Number)
+                                    </button>
+                                  
+                                </td>
                                 <td>@(entey.Unit)</td>
                                 <td>@(entey.NewOld)</td>
                                 <td>

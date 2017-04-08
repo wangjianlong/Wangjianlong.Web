@@ -9,6 +9,7 @@
 
 <h2>
     &nbsp; 项目管理
+    <a class="btn btn-primary" href="/Project/create" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-plus"></i>&nbsp;添加项目</a>
     <a class="btn btn-primary" href="/Project/File" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-file"></i>导入Excel文件</a>    
 </h2>
 
@@ -52,6 +53,17 @@
                     </div>
                 </div>
                 <div class="form-group">
+                    <label class="control-label">&nbsp;排序方式：</label>
+                    <div class="col-md-12">
+                        <select name="Order" class="form-control">
+                            @foreach(ProjectOrder order in Enum.GetValues(typeof(ProjectOrder)))
+                            {
+                                <option value="@(order)" @(parameter.Order==order?"selected=selected":"")>@(order.GetDescription())</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
                     <label class="control-label">&nbsp;查询</label>
                     <div class="col-md-12">
                         <button type="submit" class="btn btn-primary btn-sm"><i class="glyphicon glyphicon-search"></i>&nbsp;立即查询</button>
@@ -83,7 +95,8 @@
                             <td>@(item.Unit)</td>
                             <td>@(item.City!=null?item.City.Name:"获取城市失败")</td>
                             <td>
-
+                                <a href="/Project/create?id=@(item.ID)" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-edit"></i>&nbsp;编辑</a>
+                                <a href="/Project/Delete?id=@(item.ID)" class="btn btn-danger btn-xs" name="Delete"><i class="glyphicon glyphicon-remove-circle"></i>&nbsp;删除</a>
                             </td>
                         </tr>
                     }

@@ -11,6 +11,22 @@ namespace Wangjianlong.Managers
 {
     public class ProjectManager:ManagerBase
     {
+        /// <summary>
+        /// 作用：获取
+        /// 作者：
+        /// 编写时间：2017年4月8日10:57:19
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public Project Get(int id)
+        {
+            if (id <= 0)
+            {
+                return null;
+            }
+            var model = Db.Projects.Find(id);
+            return model;
+        }
         public int Save(Project project)
         {
             Db.Projects.Add(project);
@@ -76,7 +92,22 @@ namespace Wangjianlong.Managers
             {
                 query = query.Where(e => e.Price <= parameter.MaxPrice.Value);
             }
-            query = query.OrderBy(e => e.ID).SetPage(parameter.Page);
+            switch (parameter.Order)
+            {
+                case ProjectOrder.City:
+                    query = query.OrderBy(e => e.CityID);
+                    break;
+                case ProjectOrder.Name:
+                    query = query.OrderBy(e => e.Name);
+                    break;
+                case ProjectOrder.Price:
+                    query = query.OrderBy(e => e.Price);
+                    break;
+                case ProjectOrder.Title:
+                    query = query.OrderBy(e => e.Title);
+                    break;
+            }
+            query = query.SetPage(parameter.Page);
             return query.ToList();
         }
 
@@ -119,6 +150,28 @@ namespace Wangjianlong.Managers
             {
                 Core.DailyManager.AddRange(dailys);
             }
+        }
+        public bool Used(int id)
+        {
+            return Db.FitmentItems.Any(e => e.ProjectID == id);
+        }
+        /// <summary>
+        /// 作用：删除项目
+        /// 作者：
+        /// 编写时间：2017年4月8日12:50:36
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public bool Delete(int id)
+        {
+            var model = Db.Projects.Find(id);
+            if (model == null)
+            {
+                return false;
+            }
+            Db.Projects.Remove(model);
+            Db.SaveChanges();
+            return true;
         }
         
     }

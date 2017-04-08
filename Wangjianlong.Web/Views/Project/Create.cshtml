@@ -1,0 +1,88 @@
+﻿@{ 
+    Layout = null;
+    Project project = ViewBag.Model;
+    List<City> citys = ViewBag.Citys;
+}
+
+<script>
+    $(function () {
+        $("#project-form").submit(function () {
+            var btn = $("#project-form button[type='submit']");
+            btn.text("正在保存").attr("disabled", "disabled");
+            ShowMessage("正在保存");
+            var data = $(this).serialize();
+            $.request("/project/save", data, function (json) {
+                if (json.result == 0) {
+                    ShowErrorMessage(json.content);
+                    btn.empty().append('<i class="glyphicon glyphicon-ok"></i>&nbsp; 保存').removeAttr("disabled");
+                } else {
+                    ShowSuccessMessage("成功保存");
+                    location.href = "/Project/index";
+                }
+            });
+            return false;
+        });
+    });
+</script>
+
+<div class="page-header">
+    <h3 class="text-center">项目</h3>
+</div>
+
+<form class="form-horizontal" method="post" action="" id="project-form">
+    @{ 
+        Html.RenderPartial("_Message");
+    }
+    <div class="form-group">
+        <label class="control-label col-md-4">&nbsp;所属城市：</label>
+        <div class="col-md-7">
+            <input type="hidden" name="ID" value="@(project!=null?project.ID:0)" />
+            @if (project != null)
+            {
+                <input type="hidden" name="CityID" value="@(project.CityID)" />
+                <input type="text" class="form-control" value="@(project.City.Name)" readonly />
+            }
+            @if (citys != null)
+            {
+                <select name="CityID" class="form-control">
+                    <option value="">请选择</option>
+                    @foreach(var city in citys)
+                    {
+                        <option value="@(city.ID)">@(city.Name)</option>
+                    }
+                </select>
+            }
+      
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4">&nbsp;缩写：</label>
+        <div class="col-md-7">
+            <input type="text" name="Title" class="form-control" placeholder="缩写" value="@(project!=null?project.Title:"")" required />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4">&nbsp;项目名称：</label>
+        <div class="col-md-7">
+            <input type="text" name="Name" class="form-control" placeholder="项目名称" value="@(project!=null?project.Name:"")" required />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4">&nbsp;单价[元]:</label>
+        <div class="col-md-7">
+            <input type="text" name="Price" class="form-control" placeholder="单价" value="@(project!=null?project.Price.ToString():"")" required />
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="control-label col-md-4">&nbsp;单位：</label>
+        <div class="col-md-7">
+            <input type="text" name="Unit" class="form-control" placeholder="单位" value="@(project!=null?project.Unit:"")" required />
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-7 col-md-offset-4">
+            <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-ok"></i>&nbsp; 保存</button>
+            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>&nbsp; 取消</button>
+        </div>
+    </div>
+</form>

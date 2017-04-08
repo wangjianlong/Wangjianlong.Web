@@ -11,7 +11,7 @@ namespace Wangjianlong.Common
     {
         public static int[] Get(this HttpContextBase context,string name)
         {
-            var values = context.Request.Form[name].Split(',');
+            var values = GetString(context, name);
             int[] result = new int[values.Length];
             var a = 0;
             for(var i = 0; i < values.Length; i++)
@@ -23,7 +23,7 @@ namespace Wangjianlong.Common
 
         public static double[] GetDouble(this HttpContextBase context,string name)
         {
-            var values = context.Request.Form[name].Split(',');
+            var values = GetString(context, name);
             double[] result = new double[values.Length];
             var a = .0;
             for (var i = 0; i < values.Length; i++)
@@ -31,6 +31,11 @@ namespace Wangjianlong.Common
                 result[i] = double.TryParse(values[i], out a) ? a : .0;
             }
             return result;
+        }
+        public static string[] GetString(this HttpContextBase context,string name)
+        {
+            var values = context.Request.Form[name].Split(',');
+            return values;
         }
 
 

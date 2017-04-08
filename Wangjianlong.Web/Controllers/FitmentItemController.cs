@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -25,25 +26,34 @@ namespace Wangjianlong.Web.Controllers
                 return ErrorJsonResult("位置ID不正确,请刷新重试");
             }
             int[] projectIDs = HttpContext.Get("ProjectID");
-            double[] numbers = HttpContext.GetDouble("Number");
+            string[] formulas = HttpContext.GetString("Formula");
+            //double[] numbers = HttpContext.GetDouble("Number");
             double[] newold = HttpContext.GetDouble("NewOld");
-            if (projectIDs.Length > 0 && numbers.Length > 0 &&newold.Length>0&& projectIDs.Length == numbers.Length&&numbers.Length==newold.Length)
+            if (projectIDs.Length > 0 && formulas.Length > 0 &&newold.Length>0&& projectIDs.Length == formulas.Length&&formulas.Length==newold.Length)
             {
                 var list = new List<FitmentItem>();
+                var dt = new DataTable();
                 for(var i = 0; i < projectIDs.Length; i++)
                 {
                     var no = newold[i];
-                    if (numbers[i]<=0|| no < 0 || no > 100)
+                    if (string.IsNullOrEmpty(formulas[i])|| no < 0 || no > 100)
                     {
                         continue;
                     }
-                    list.Add(new FitmentItem
+                    var formula = formulas[i];
+                    double number = .0;
+                    if(double.TryParse(dt.Compute(formula, null).ToString(),out number))
                     {
-                        ProjectID = projectIDs[i],
-                        Number = numbers[i],
-                        NewOld=newold[i],
-                        PositionID = positionID
-                    });
+                        list.Add(new FitmentItem
+                        {
+                            ProjectID = projectIDs[i],
+                            Formula = formulas[i],
+                            Number = Math.Round(number, 2),
+                            NewOld = newold[i],
+                            PositionID = positionID
+                        });
+                    }
+                  
                 }
                 if (list.Count > 0)
                 {

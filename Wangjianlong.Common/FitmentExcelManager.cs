@@ -82,9 +82,10 @@ namespace Wangjianlong.Common
                             ExcelManager.GetCell(row, 0,modelRow).SetCellValue("合计");
                             for(var i = 1; i < 6; i++)
                             {
-                                ExcelManager.GetCell(row, i, modelRow);
+                                ExcelManager.GetCell(row, i, modelRow).SetCellValue("");
                             }
                             ExcelManager.GetCell(row, 6,modelRow).SetCellValue(merge);
+                            ExcelManager.GetCell(row, 7, modelRow).SetCellValue("");
                             row = sheet.GetRow(startline);
                             ExcelManager.GetCell(row, 7,modelRow).SetCellValue(position.Name);
                             sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(startline, line, 7, 7));

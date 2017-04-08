@@ -18,12 +18,17 @@ namespace Wangjianlong.Models
         public int ID { get; set; }
         public int ProjectID { get; set; }
         public virtual Project Project { get; set; }
+        /// <summary>
+        /// 公式
+        /// </summary>
+        public string Formula { get; set; }
         public double Number { get; set; }
         public int PositionID { get; set; }
+        public virtual Position Position { get; set; }
         /// <summary>
         /// 成新
         /// </summary>
         public double NewOld { get; set; }
-        public virtual Position Position { get; set; }
+      
     }
 }
