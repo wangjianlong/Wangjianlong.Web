@@ -232,10 +232,6 @@
     <Content Include="Fireronzv_dragon_24px_564861_easyicon.net.png" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="loowootech.png" />
-    <Content Include="loowootech1.png" />
-    <Content Include="loowootech2.png" />
-    <Content Include="loowootech3.png" />
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -287,7 +283,9 @@
     <Content Include="Scripts\TodoMessage.js" />
     <Content Include="Scripts\tree.jquery.js" />
     <None Include="Scripts\_references.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

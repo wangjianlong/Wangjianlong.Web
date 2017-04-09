@@ -23,9 +23,12 @@ namespace Wangjianlong.Web.Controllers
                 Address=address,
                 StartTime=startTime,
                 EndTime=EndTime,
-                Page = new PageParameter(page, rows),
-                UserID=Identity.UserID
+                Page = new PageParameter(page, rows)
             };
+            if (Identity.Role != UserRole.Administrator)
+            {
+                parameter.UserID = Identity.UserID;
+            }
             var list = Core.FitmentManager.Search(parameter);
             ViewBag.List = list;
             ViewBag.Parameter = parameter;
@@ -63,7 +66,7 @@ namespace Wangjianlong.Web.Controllers
             }
             else
             {
-                if (Core.FitmentManager.Exist(fitment.Name,fitment.Number))
+                if (Core.FitmentManager.Exist(fitment.Name,fitment.Number,Identity.UserID))
                 {
                     return ErrorJsonResult(string.Format("系统中已存在装修表单名称为{0}", fitment.Name));
                 }
@@ -145,6 +148,8 @@ namespace Wangjianlong.Web.Controllers
             }
             return SuccessJsonResult();
         }
+
+        
 
         public ActionResult Download(int id)
         {

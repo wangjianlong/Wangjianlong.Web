@@ -101,5 +101,12 @@ namespace Wangjianlong.Web.Controllers
             
             return SuccessJsonResult();
         }
+
+        public ActionResult PositionItem(int id)
+        {
+            var position = Core.PositionManager.Get(id);
+            ViewBag.Model = position;
+            return View();
+        }
     }
 }
