@@ -162,16 +162,16 @@ namespace Wangjianlong.Web.Controllers
             else
             {
                 list = Core.ProjectManager.Search(key,cityID);
-                //var parameter = new ProjectParameter
-                //{
-                //    Title = key,
-                //    Name = key,
-                //    Page = new PageParameter(1, 10)
-                //};
-                // list = Core.ProjectManager.Search(parameter);
             }
   
             return Json(list, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult Gain(int cityId)
+        {
+            var list = Core.ProjectManager.GetList(cityId);
+            var result = list.Select(e => string.Format("{0}+{1}+{2}元/{3}", e.Title, e.Name, e.Price, e.Unit)).ToList();
+            return Json(result, JsonRequestBehavior.AllowGet);
         }
 
 

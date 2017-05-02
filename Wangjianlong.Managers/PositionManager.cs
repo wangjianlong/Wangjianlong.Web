@@ -35,6 +35,21 @@ namespace Wangjianlong.Managers
             }
             return Db.Positions.Find(id);
         }
+        public bool Lock(int id,bool flag)
+        {
+            if (id <= 0)
+            {
+                return false;
+            }
+            var model = Db.Positions.Find(id);
+            if (model == null)
+            {
+                return false;
+            }
+            model.Lock = flag;
+            Db.SaveChanges();
+            return true;
+        }
 
         public List<Position> GetByFitmentID(int fitmentID)
         {

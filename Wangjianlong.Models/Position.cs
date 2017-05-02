@@ -20,6 +20,7 @@ namespace Wangjianlong.Models
         public string Name { get; set; }
         public int FitmentID { get; set; }
         public Category Category { get; set; }
+        public bool Lock { get; set; }
     }
 
     public enum Category

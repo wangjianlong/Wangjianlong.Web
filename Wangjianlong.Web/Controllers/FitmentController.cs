@@ -208,5 +208,22 @@ namespace Wangjianlong.Web.Controllers
         
             return SuccessJsonResult();
         }
+        public ActionResult Lock(int id)
+        {
+            if (!Core.PositionManager.Lock(id, true))
+            {
+                return ErrorJsonResult("锁定失败，未找到位置信息");
+            }
+            return SuccessJsonResult();
+        }
+
+        public ActionResult UnLock(int id)
+        {
+            if (!Core.PositionManager.Lock(id, false))
+            {
+                return ErrorJsonResult("解锁失败，未找到位置信息");
+            }
+            return SuccessJsonResult();
+        }
     }
 }

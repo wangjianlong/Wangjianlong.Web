@@ -81,7 +81,7 @@ namespace Wangjianlong.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Edit(int id,double number,double newold)
+        public ActionResult Edit(int id,string Formula, double newold)
         {
             if (newold <= 0 || newold > 100)
             {
@@ -92,8 +92,24 @@ namespace Wangjianlong.Web.Controllers
             {
                 return ErrorJsonResult("编辑项目失败，未找到项目信息");
             }
-            model.Number = number;
+            if (!string.IsNullOrEmpty(Formula))
+            {
+                var val = .0;
+                if(double.TryParse(Formula,out val))
+                {
+                    model.Number = val;
+                }
+                else
+                {
+                    var dt = new DataTable();
+                    if (double.TryParse(dt.Compute(Formula.Replace("（", "(").Replace("）", ")"), null).ToString(), out val))
+                    {
+                        model.Number = Math.Round(val, 2);
+                    }
+                }
+            }
             model.NewOld = newold;
+            model.Formula = Formula;
             if (!Core.FitmentItemManager.Edit(model))
             {
                 return ErrorJsonResult("编辑失败，未找到编辑的项目信息");
@@ -107,6 +123,56 @@ namespace Wangjianlong.Web.Controllers
             var position = Core.PositionManager.Get(id);
             ViewBag.Model = position;
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult SaveItem(FitmentItem item,string TitleKey,int cityId)
+        {
+            if (string.IsNullOrEmpty(TitleKey))
+            {
+                return ErrorJsonResult("请选择材料");
+            }
+            var array = TitleKey.Split('+');
+            if (array.Length != 3)
+            {
+                return ErrorJsonResult("未识别当前材料信息");
+            }
+            var str = array[2].Replace("元", "");
+            var temp = str.Split('/');
+            var price = 0;
+            if(int.TryParse(temp[0],out price))
+            {
+                var project = Core.ProjectManager.Get(array[0], array[1],price,temp[1], cityId);
+                if (project == null)
+                {
+                    return ErrorJsonResult("项目信息错误");
+                }
+                item.ProjectID = project.ID;
+            }
+            else
+            {
+                return ErrorJsonResult("未识别材料信息");
+            }
+           
+            var val = .0;
+            if(double.TryParse(item.Formula,out val))
+            {
+                item.Number = Math.Round(val, 2);
+            }
+            else
+            {
+                var dt = new DataTable();
+                if (double.TryParse(dt.Compute(item.Formula.Replace("（","(").Replace("）",")"), null).ToString(), out val))
+                {
+                    item.Number = Math.Round(val, 2);
+                }
+            }
+            var IID = Core.FitmentItemManager.Save(item);
+            if (IID <= 0)
+            {
+                return ErrorJsonResult("保存失败");
+            }
+            return SuccessJsonResult();
         }
     }
 }

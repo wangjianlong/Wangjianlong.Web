@@ -10,11 +10,17 @@
 }
 
 <script>
-    document.onkeydown = function (event) {
-        var e = event || window.event || arguments.callee.caller.arguments[0];
-        if (e && e.keyCode == 13) {
-            alert("Enter");
-        }
+
+    function Search(key) {
+        console.log(key);
+        var select = $("select[name='Result']");
+        $.getJSON("/Project/Search?cityID=@(fitment.CityID)&&key=" + key, null, function (data) {
+            select.empty();
+            $.each(data, function (key, val) {
+                select.append('<option val="">' + val.Name + '</option>');
+            });
+            
+        });
     }
     $(function () {
         $("a[name='AddList']").click(function () {
@@ -45,8 +51,69 @@
             return false;
         });
 
+        $("input[name='TitleKey']").AutoComplete({
+            'data': "/Project/Gain?cityId=@(fitment.CityID)",
+            'width': 'auto',
+            'itemHeight': 50,
+            'ajaxDataType': 'json',
+            'onerror': function (msg) { alert(msg); }
+        });
+
+        $("form[name='YY']").submit(function () {
+            var data = $(this).serialize();
+            $.request("/FitmentItem/SaveItem", data, function (json) {
+                if (json.result == 0) {
+                    alert(json.content);
+                } else {
+                    location.href = "/Fitment/Detail?id=@(fitment.ID)";
+                }
+            });
+            return false;
+        });
+
+        $("a[name='lock']").click(function () {
+            var href = $(this).attr("href");
+            $.request(href, null, function (json) {
+                if (json.result == 0) {
+                    alert(json.content);
+                } else {
+                    location.href = "/fitment/detail?id=@(fitment.ID)";
+                }
+            });
+            return false;
+        });
+
+        $("a[name='DeleteIndex']").click(function () {
+            if (confirm("您确定要删除吗?一旦删除无法恢复找回数据")) {
+                var node = $(this).parent().parent();
+                ShowMessage("正在删除,请稍等......");
+                var href = $(this).attr("href");
+                $.request(href, null, function (json) {
+                    if (json.result == 0) {
+                        ShowErrorMessage(json.content);
+                    } else {
+                        ShowSuccessMessage("成功删除");
+                        location.href = "/fitment/detail?id=@(fitment.ID)";
+                    }
+                });
+            }
+
+            return false;
+        });
+
     });
 </script>
+
+<div class="hidden">
+    <table >
+        <tr>
+            <td><input type="text" name="TitleKey" class="form-control" autocomplete="off" placeholder="请输入关键字" /></td>
+            <td><input type="text" name="Number" class="form-control" placeholder="请输入数量" /></td>
+            <td><input type="text" name="NewOld" class="form-control" placeholder="成新" value="100" /></td>
+            <td><button type="button" class="btn btn-danger btn-xs" name="Delete"><i class="glyphicon glyphicon-remove"></i></button></td>
+        </tr>
+    </table>
+</div>
 
 <h2>
     &nbsp;@(fitment.Name)
@@ -62,91 +129,136 @@
         @{
             Html.RenderPartial("_Message");
         }
-        <form class="form-horizontal" method="post">
-            <div class="col-md-12">
-                <table class="table table-bordered">
-                    <tr>
-                        <th>户名</th>
-                        <td>@(fitment.Name)</td>
-                        <th>编号</th>
-                        <td colspan="4">@(fitment.Number)</td>
-                        <th>所属城市</th>
-                        <td>@(fitment.City != null ? fitment.City.Name : "未获取城市信息")</td>
-                    </tr>
-                    <tr>
-                        <th>地址</th>
-                        <td colspan="6">@(fitment.Address)</td>
-                        <th>创建时间</th>
-                        <td>@(fitment.CreateTime.ToString())</td>
-                    </tr>
-                    <tr>
-                        <th>位置</th>
-                        <th>序号</th>
-                        <th>项目</th>
-                        <th>单价【元】</th>
-                        <th>数量</th>
-                        <th>单位</th>
-                        <th>成新【%】</th>
-                        <th>补偿价值【元】</th>
-                        <th>操作</th>
-                    </tr>
-                    @foreach (var item in dict)
-                    {
+        <div class="col-md-12">
+            <table class="table table-bordered">
+                <tr>
+                    <th>户名</th>
+                    <td>@(fitment.Name)</td>
+                    <th>编号</th>
+                    <td colspan="4">@(fitment.Number)</td>
+                    <th>所属城市</th>
+                    <td>@(fitment.City != null ? fitment.City.Name : "未获取城市信息")</td>
+                </tr>
+                <tr>
+                    <th>地址</th>
+                    <td colspan="6">@(fitment.Address)</td>
+                    <th>创建时间</th>
+                    <td>@(fitment.CreateTime.ToString())</td>
+                </tr>
+                <tr>
+                    <th>位置</th>
+                    <th>序号</th>
+                    <th>项目</th>
+                    <th>单价【元】</th>
+                    <th>数量</th>
+                    <th>单位</th>
+                    <th>成新【%】</th>
+                    <th>补偿价值【元】</th>
+                    <th>操作</th>
+                </tr>
+                @foreach (var item in dict)
+                {
 
+                    <tr>
+                        <th colspan="9"><h4 class="text-center">@(item.Key.GetDescription())</h4> </th>
+                    </tr>
+                    foreach (var position in item.Value)
+                    {
+                        var itemprojects = items.Where(e => e.PositionID == position.ID).ToList();
                         <tr>
-                            <th colspan="9"><h4 class="text-center">@(item.Key.GetDescription())</h4> </th>
-                        </tr>
-                        foreach (var position in item.Value)
-                        {
-                            var itemprojects = items.Where(e => e.PositionID == position.ID).ToList();
-                            <tr>
-                                <th rowspan="@(itemprojects.Count+2)">
-                                    @(position.Name)
-                                    <a href="/Project/AddList?positionId=@(position.ID)&&cityID=@(fitment.CityID)" name="AddList" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;添加项目</a>
+                            <th rowspan="@(itemprojects.Count+2)">
+                                @(position.Name)
+                                @*<a href="/Project/AddList?positionId=@(position.ID)&&cityID=@(fitment.CityID)" name="AddList" class="btn btn-success btn-xs"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp;添加项目</a>*@
+                               
+                                @if (position.Lock)
+                                {
+                                    <a href="/fitment/Unlock?id=@(position.ID)" class="btn btn-warning btn-xs" name="lock"><i class="fa fa-unlock"></i>解锁</a>
+                                }
+                                else
+                                {
                                     <a href="/fitment/CreatePosition?id=@(position.ID)" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-edit"></i>&nbsp;编辑</a>
                                     <a href="/fitment/DeletePosition?id=@(position.ID)" class="btn btn-danger btn-xs" name="Delete"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;删除</a>
-                                </th>
-                            </tr>
-                            foreach (var entey in itemprojects)
-                            {
-                                <tr>
-                                    <td>@(serial++)</td>
-                                    <td>@string.Format("{0}（{1}）", entey.Name, entey.Title)</td>
-                                    <td>@(entey.Price)</td>
-                                    <td>
-                                        <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="@(entey.Formula)">
-                                            @(entey.Number)
-                                        </button>
-
-                                    </td>
-                                    <td>@(entey.Unit)</td>
-                                    <td>@(entey.NewOld)</td>
-                                    <td>
-                                        @(entey.Sum)
-                                    </td>
-                                    <td>
-                                        <a href="/fitmentitem/edit?id=@(entey.ID)" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-edit"></i>&nbsp;编辑</a>
-                                        <a href="/fitmentItem/delete?id=@(entey.ID)" class="btn btn-danger btn-xs" name="Delete"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;删除</a>
-                                    </td>
-                                </tr>
-                            }
-
+                                    <a href="/fitment/Lock?id=@(position.ID)" class="btn btn-success btn-xs" name="lock"><i class="fa fa-lock"></i>&nbsp;锁定</a>              
+                                }
+              
+                            </th>
+                        </tr>
+                        foreach (var entey in itemprojects)
+                        {
                             <tr>
-                                <td></td>
+                                <td>@(serial++)</td>
+                                <td>@string.Format("{0}（{1}）", entey.Name, entey.Title)</td>
+                                <td>@(entey.Price)</td>
                                 <td>
-                                    <input type="text" name="TitleKey" class="form-control" autofocus />
+                                    <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="@(entey.Formula)">
+                                        @(entey.Number)
+                                    </button>
+
                                 </td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
+                                <td>@(entey.Unit)</td>
+                                <td>@(entey.NewOld)</td>
+                                <td>
+                                    @(entey.Sum)
+                                </td>
+                                <td>
+                                    @if (position.Lock == false)
+                                    {
+                                        <a href="/fitmentitem/edit?id=@(entey.ID)" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-edit"></i>&nbsp;编辑</a>
+                                        <a href="/fitmentItem/delete?id=@(entey.ID)" class="btn btn-danger btn-xs" name="DeleteIndex"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;删除</a>
+                                    }
+                     
+                                </td>
                             </tr>
                         }
+
+                        if (position.Lock==false)
+                        {
+                            <tr>
+                                <td colspan="8">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <form class="form-horizontal" method="post" action="/FitmentItem/SaveItem" name="YY">
+                                                <input type="hidden" name="PositionID" value="@(position.ID)" />
+                                                <input type="hidden" name="CityID" value="@(fitment.CityID)" />
+                                                <table class="table table-striped table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>材料</th>
+                                                            <th>数量</th>
+                                                            <th>成新%</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td><input type="text" name="TitleKey" class="form-control" autocomplete="off" placeholder="请输入关键字" autofocus /></td>
+                                                            <td><input type="text" name="Formula" class="form-control" placeholder="请输入数量" /></td>
+                                                            <td><input type="text" name="NewOld" class="form-control" placeholder="成新" value="100" /></td>
+                                                        </tr>
+                                                    </tbody>
+                                                    <tfoot>
+                                                        <tr>
+                                                            <td colspan="3">
+                                                                <button type="submit" class="hidden"><i class="glyphicon glyphicon-ok"></i>保存</button>
+                                                            </td>
+                                                        </tr>
+                                                    </tfoot>
+                                                </table>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                        else
+                        {
+                            <tr></tr>
+                        }
+
                     }
-                </table>
-            </div>
-        </form>
+                }
+            </table>
+        </div>
         @*<div class="col-md-12">
             <table class="table table-bordered">
                 <tr>
@@ -230,13 +342,6 @@
                 }
             </table>
         </div>*@
-        <hr />
-        <div class="col-md-12" >
-
-            <div class="" id="List">
-
-            </div>
-        </div>
         
     </div>
 </div>

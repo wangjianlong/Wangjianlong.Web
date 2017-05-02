@@ -27,6 +27,11 @@ namespace Wangjianlong.Managers
             var model = Db.Projects.Find(id);
             return model;
         }
+
+        public Project Get(string title,string name,int price,string unit,int cityId)
+        {
+            return Db.Projects.FirstOrDefault(e => e.Title == title && e.Name == name && e.CityID == cityId&&e.Price==price&&e.Unit==unit);
+        }
         public int Save(Project project)
         {
             Db.Projects.Add(project);
@@ -119,6 +124,11 @@ namespace Wangjianlong.Managers
         {
             var query = Db.Projects.Where(e=>e.CityID==cityID).Where(e => e.Name.ToLower().Contains(key.ToLower()) || e.Title.ToLower().Contains(key.ToLower())).OrderBy(e=>e.ID).SetPage(new PageParameter(1, 10)).ToList();
             return query;
+        }
+
+        public List<Project> GetList(int cityId)
+        {
+            return Db.Projects.Where(e => e.CityID == cityId).ToList();
         }
         
         public void AddRange(List<Project> list)

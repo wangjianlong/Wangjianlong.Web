@@ -74,5 +74,11 @@ namespace Wangjianlong.Managers
                 SetNewOld(item.ID, newold);
             }
         }
+        public int Save(FitmentItem item)
+        {
+            Db.FitmentItems.Add(item);
+            Db.SaveChanges();
+            return item.ID;
+        }
     }
 }
