@@ -48,8 +48,13 @@ namespace Wangjianlong.Common
                     
                         var cell = ExcelManager.GetCell(row, 0,modelRow);
                         cell.SetCellValue(entry.Key.GetDescription());
+                        for(var i = 1; i <= 7; i++)
+                        {
+                            ExcelManager.GetCell(row, i, modelRow).SetCellValue("");
+                        }
                         sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(line, line, 0, 7));
                         line++;
+                        var all = .0;
                         foreach (var position in entry.Value)
                         {
                             var list = items.Where(e => e.PositionID == position.ID).ToList();
@@ -79,16 +84,29 @@ namespace Wangjianlong.Common
                             {
                                 row = sheet.CreateRow(line);
                             }
-                            ExcelManager.GetCell(row, 0,modelRow).SetCellValue("合计");
+                            ExcelManager.GetCell(row, 0,modelRow).SetCellValue(entry.Key!=Category.Appendix?"小计":"合计");
                             for(var i = 1; i < 6; i++)
                             {
                                 ExcelManager.GetCell(row, i, modelRow).SetCellValue("");
                             }
                             ExcelManager.GetCell(row, 6,modelRow).SetCellValue(merge);
+                            all += merge;
                             ExcelManager.GetCell(row, 7, modelRow).SetCellValue("");
                             row = sheet.GetRow(startline);
                             ExcelManager.GetCell(row, 7,modelRow).SetCellValue(position.Name);
                             sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(startline, line, 7, 7));
+                            line++;
+                        }
+                        if (entry.Key != Category.Appendix)
+                        {
+                            row = sheet.GetRow(line) ?? sheet.CreateRow(line);
+                            ExcelManager.GetCell(row, 0, modelRow).SetCellValue("合计");
+                            for(var i = 1; i < 6; i++)
+                            {
+                                ExcelManager.GetCell(row, i, modelRow).SetCellValue("");
+                            }
+                            ExcelManager.GetCell(row, 6, modelRow).SetCellValue(all);
+                            ExcelManager.GetCell(row, 7, modelRow).SetCellValue("");
                             line++;
                         }
                     }
