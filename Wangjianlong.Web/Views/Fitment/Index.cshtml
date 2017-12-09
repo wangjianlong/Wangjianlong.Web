@@ -54,6 +54,7 @@
                         <th>编号</th>
                         <th>地址</th>
                         <th>所属城市</th>
+                        <th>补偿价值【元】</th>
                         @if (Identity.Role == UserRole.Administrator)
                         {
                             <th>创建者</th>
@@ -71,6 +72,7 @@
                             <td>@(item.Number)</td>
                             <td>@(item.Address)</td>
                             <td>@(item.City!=null?item.City.Name:"未获取城市信息")</td>
+                            <td>@(item.Sum)</td>
                             @if (Identity.Role == UserRole.Administrator)
                             {
                             <td>@(item.User.DisplayName)</td>

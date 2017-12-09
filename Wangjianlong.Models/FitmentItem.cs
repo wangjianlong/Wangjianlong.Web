@@ -29,6 +29,14 @@ namespace Wangjianlong.Models
         /// 成新
         /// </summary>
         public double NewOld { get; set; }
+
+        public double Sum
+        {
+            get
+            {
+                return Math.Floor(Project.Price * Number * NewOld / 100 + 0.5);
+            }
+        }
       
     }
 }

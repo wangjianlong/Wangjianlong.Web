@@ -26,7 +26,7 @@ namespace Wangjianlong.Models
         {
             get
             {
-                return Price * Number*NewOld/100; 
+                return Math.Floor(Price * Number*NewOld/100+0.5); 
             }
         }
         public int PositionID { get; set; }

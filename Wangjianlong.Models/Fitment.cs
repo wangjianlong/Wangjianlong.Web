@@ -30,5 +30,12 @@ namespace Wangjianlong.Models
         public int CityID { get; set; }
         public virtual City City { get; set; }
         public virtual List<Position> Positions { get; set; }
+        public double Sum
+        {
+            get
+            {
+                return Positions.Sum(e => e.Sum);
+            }
+        }
     }
 }

@@ -168,6 +168,23 @@ namespace Wangjianlong.Web.Controllers
             byte[] fileContents = ms.ToArray();
             return File(fileContents, "application/ms-excel", string.Format("{0}.xls", fitment.Name));
         }
+        public ActionResult Download2(int id)
+        {
+            var fitment = Core.FitmentManager.Get(id);
+            if (fitment == null)
+            {
+                throw new ArgumentException("获取装修表单信息失败");
+            }
+            var positions = Core.PositionManager.GetByFitmentID(fitment.ID);
+            var items = Core.ItemProjectPositionManager.GetFitmentID(fitment.ID);
+
+            IWorkbook workbook = FitmentExcelManager.SaveFitment2(fitment, positions, items);
+            MemoryStream ms = new MemoryStream();
+            workbook.Write(ms);
+            ms.Flush();
+            byte[] fileContents = ms.ToArray();
+            return File(fileContents, "application/ms-excel", string.Format("{0}.xls", fitment.Name));
+        }
 
         public ActionResult Delete(int id)
         {

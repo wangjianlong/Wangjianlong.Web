@@ -21,6 +21,18 @@ namespace Wangjianlong.Models
         public int FitmentID { get; set; }
         public Category Category { get; set; }
         public bool Lock { get; set; }
+        public virtual List<FitmentItem> Items { get; set; }
+        public double Sum
+        {
+            get
+            {
+                if (Items == null)
+                {
+                    return .0;
+                }
+                return Items.Sum(e => e.Sum);
+            }
+        }
     }
 
     public enum Category

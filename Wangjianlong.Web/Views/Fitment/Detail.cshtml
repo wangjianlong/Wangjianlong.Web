@@ -120,8 +120,10 @@
     <a class="btn btn-success" href="/Fitment/CreatePosition?fitmentID=@(fitment.ID)" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-plus-sign"></i>&nbsp; 创建位置</a>    
     <a class="btn btn-primary" href="/Fitment/Create?id=@(fitment.ID)" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-edit"></i>&nbsp;编辑</a>
     <a class="btn btn-warning" href="/Fitment/Download?id=@(fitment.ID)"><i class="glyphicon glyphicon-download-alt"></i>&nbsp;下载Excel文件</a>
+    <a class="btn btn-success" href="/Fitment/Download2?id=@(fitment.ID)"><i class="fa fa-download"></i>&nbsp;下载合计Excel文件</a>
     <a class="btn btn-default" href="/Fitment/newOld?id=@(fitment.ID)" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-tags"></i>&nbsp;一键修改成新</a>
     <a class="btn btn-danger" href="/Fitment/Delete?id=@(fitment.ID)" name="Remove"><i class="glyphicon glyphicon-remove"></i>&nbsp;删除</a>
+    <button type="button" class="btn btn-default" onclick="history.back()"><i class="fa fa-arrow-left"></i>&nbsp;返回</button>
 </h2>
 
 <div class="row">

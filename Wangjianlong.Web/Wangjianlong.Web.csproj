@@ -259,6 +259,7 @@
     <Content Include="fonts\fontawesome-webfont.woff2" />
     <Content Include="fonts\FontAwesome.otf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Excels\Fitment2.xls" />
     <None Include="Properties\PublishProfiles\fitment.pubxml" />
     <Content Include="Scripts\2\Chart.js" />
     <Content Include="Scripts\2\TodoChart.js" />
