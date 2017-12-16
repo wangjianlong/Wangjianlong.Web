@@ -84,10 +84,9 @@ namespace Wangjianlong.Common
                                 ExcelManager.GetCell(row, 7, modelRow);
                                 merge += item.Sum;
                             }
-                            row = sheet.GetRow(line)??sheet.CreateRow(line);
-                            line++;
+                            row = sheet.GetRow(line);
                             ExcelManager.GetCell(row, 0, modelRow).SetCellValue("小计");
-                            for(var i = 1; i < 8; i++)
+                            for(var i = 1; i < 7; i++)
                             {
                                 ExcelManager.GetCell(row, i, modelRow).SetCellValue("");
                             }
