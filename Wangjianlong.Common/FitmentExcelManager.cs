@@ -49,7 +49,7 @@ namespace Wangjianlong.Common
                         {
                             row = sheet.CreateRow(line);
                         }
-
+                        row.Height = modelRow.Height;
                         var cell = ExcelManager.GetCell(row, 0, modelRow);
                         cell.SetCellValue(entry.Key.GetDescription());
                         for (var i = 1; i <= 7; i++)
@@ -73,6 +73,7 @@ namespace Wangjianlong.Common
                                 {
                                     row = sheet.CreateRow(line);
                                 }
+                                row.Height = modelRow.Height;
                                 line++;
                                 ExcelManager.GetCell(row, 0, modelRow).SetCellValue(serial++);
                                 ExcelManager.GetCell(row, 1, modelRow).SetCellValue(item.Name);
@@ -85,6 +86,7 @@ namespace Wangjianlong.Common
                                 merge += item.Sum;
                             }
                             row = sheet.GetRow(line)??sheet.CreateRow(line);
+                            row.Height = modelRow.Height;
                             line++;
                             ExcelManager.GetCell(row, 0, modelRow).SetCellValue("小计");
                             for(var i = 1; i < 8; i++)
@@ -94,12 +96,14 @@ namespace Wangjianlong.Common
                             ExcelManager.GetCell(row, 6, modelRow).SetCellValue(merge);
                             all += merge;
                             row = sheet.GetRow(startline);
+                            row.Height = modelRow.Height;
                             ExcelManager.GetCell(row, 7, modelRow).SetCellValue(position.Name);
                             sheet.AddMergedRegion(new NPOI.SS.Util.CellRangeAddress(startline, line-1, 7, 7));
                         }
                         #endregion
                     }
                     row = sheet.GetRow(line) ?? sheet.CreateRow(line);
+                    row.Height = modelRow.Height;
                     ExcelManager.GetCell(row, 0, modelRow).SetCellValue("合计");
                     for (var i = 1; i < 6; i++)
                     {

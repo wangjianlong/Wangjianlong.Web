@@ -133,16 +133,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>01/28/2015 04:04:30</publishTime>
     </File>
     <File Include="bin/Wangjianlong.Common.dll">
-      <publishTime>12/16/2017 14:47:13</publishTime>
+      <publishTime>12/17/2017 13:38:17</publishTime>
     </File>
     <File Include="bin/Wangjianlong.Managers.dll">
-      <publishTime>12/16/2017 14:47:13</publishTime>
+      <publishTime>12/17/2017 13:38:17</publishTime>
     </File>
     <File Include="bin/Wangjianlong.Models.dll">
       <publishTime>12/16/2017 14:47:13</publishTime>
     </File>
     <File Include="bin/Wangjianlong.Web.dll">
-      <publishTime>12/16/2017 14:47:16</publishTime>
+      <publishTime>12/17/2017 13:38:20</publishTime>
     </File>
     <File Include="bin/WebGrease.dll">
       <publishTime>07/17/2013 17:03:52</publishTime>
@@ -277,7 +277,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>12/16/2017 14:18:58</publishTime>
     </File>
     <File Include="Excels/Fitment2.xls">
-      <publishTime>12/16/2017 14:39:43</publishTime>
+      <publishTime>12/17/2017 13:36:38</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>03/24/2017 20:41:36</publishTime>
@@ -511,7 +511,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/24/2017 20:41:36</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>12/16/2017 14:47:16</publishTime>
+      <publishTime>12/17/2017 13:38:20</publishTime>
     </File>
   </ItemGroup>
 </Project>
