@@ -80,5 +80,28 @@ namespace Wangjianlong.Managers
             Db.SaveChanges();
             return item.ID;
         }
+        public bool Change(int id,int positionId)
+        {
+            var model = Db.FitmentItems.Find(id);
+            if (model == null)
+            {
+                return false;
+            }
+
+            model.PositionID = positionId;
+            Db.SaveChanges();
+            return true;
+        }
+        public bool Price(int id,double? price)
+        {
+            var model = Db.FitmentItems.Find(id);
+            if (model == null)
+            {
+                return false;
+            }
+            model.Price = price;
+            Db.SaveChanges();
+            return true;
+        }
     }
 }

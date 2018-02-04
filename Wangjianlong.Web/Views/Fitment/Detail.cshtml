@@ -179,6 +179,7 @@
                                 else
                                 {
                                     <a href="/fitment/CreatePosition?id=@(position.ID)" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-edit"></i>&nbsp;编辑</a>
+                                    <a href="/fitment/Copy?id=@(position.ID)" class="btn btn-xs btn-warning"  data-toggle="modal" data-target="#Modal"><i class="fa fa-copy"></i>&nbsp;复制</a>
                                     <a href="/fitment/DeletePosition?id=@(position.ID)" class="btn btn-danger btn-xs" name="Delete"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;删除</a>
                                     <a href="/fitment/Lock?id=@(position.ID)" class="btn btn-success btn-xs" name="lock"><i class="fa fa-lock"></i>&nbsp;锁定</a>              
                                 }
@@ -206,6 +207,8 @@
                                     @if (position.Lock == false)
                                     {
                                         <a href="/fitmentitem/edit?id=@(entey.ID)" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#Modal"><i class="glyphicon glyphicon-edit"></i>&nbsp;编辑</a>
+                                        <a href="/Fitment/Price?id=@(entey.ID)" class="btn btn-xs btn-warning" data-toggle="modal" data-target="#Modal"><i class="fa fa-money"></i>&nbsp;修改单价</a>
+                                        <a href="/fitment/ExChange?id=@(entey.ID)&&fitmentId=@(fitment.ID)" class="btn btn-info btn-xs" data-toggle="modal" data-target="#Modal"><i class="fa fa-exchange"></i>&nbsp;转移位置</a>
                                         <a href="/fitmentItem/delete?id=@(entey.ID)" class="btn btn-danger btn-xs" name="DeleteIndex"><i class="glyphicon glyphicon-remove-sign"></i>&nbsp;删除</a>
                                     }
                      

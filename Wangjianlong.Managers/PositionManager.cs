@@ -89,5 +89,31 @@ namespace Wangjianlong.Managers
             Db.SaveChanges();
             return true;
         }
+        public bool Copy(int sourceId,string name,Category category)
+        {
+            var position = Db.Positions.Find(sourceId);
+            if (position == null)
+            {
+                return false;
+            }
+
+            var newPosition = new Position
+            {
+                Name = name,
+                FitmentID = position.FitmentID,
+                Category = category,
+                Items = position.Items.Select(e => new FitmentItem
+                {
+                    ProjectID = e.ProjectID,
+                    Formula = e.Formula,
+                    Number = e.Number,
+                    NewOld = e.NewOld,
+                    Price = e.Price
+                }).ToList()
+            };
+            Db.Positions.Add(newPosition);
+            Db.SaveChanges();
+            return true;
+        }
     }
 }

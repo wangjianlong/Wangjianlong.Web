@@ -29,12 +29,24 @@ namespace Wangjianlong.Models
         /// 成新
         /// </summary>
         public double NewOld { get; set; }
+        /// <summary>
+        /// 指定单价
+        /// </summary>
+        public double? Price { get; set; }
 
         public double Sum
         {
             get
             {
-                return Math.Floor(Project.Price * Number * NewOld / 100 + 0.5);
+                if (Price.HasValue)
+                {
+                    return Math.Floor(Price.Value * Number * NewOld / 100 + 0.5);
+                }
+                if (Project == null)
+                {
+                    return .0;
+                }
+                return  Math.Floor(Project.Price * Number * NewOld / 100 + 0.5);
             }
         }
       

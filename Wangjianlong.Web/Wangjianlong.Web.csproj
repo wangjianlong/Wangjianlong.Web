@@ -330,6 +330,9 @@
     <Content Include="Views\City\Index.cshtml" />
     <Content Include="Views\Fitment\NewOld.cshtml" />
     <Content Include="Views\Project\Create.cshtml" />
+    <Content Include="Views\Fitment\ExChange.cshtml" />
+    <Content Include="Views\Fitment\Copy.cshtml" />
+    <Content Include="Views\Fitment\Price.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

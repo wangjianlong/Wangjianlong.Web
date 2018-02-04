@@ -34,7 +34,8 @@ namespace Wangjianlong.Models
         {
             get
             {
-                return Positions.Sum(e => e.Sum);
+                
+                return Positions==null?0: Positions.Sum(e => e.Sum);
             }
         }
     }

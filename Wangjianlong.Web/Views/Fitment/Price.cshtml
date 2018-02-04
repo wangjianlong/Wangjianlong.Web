@@ -1,0 +1,56 @@
+﻿@{ 
+    Layout = null;
+    FitmentItem item = ViewBag.Item;
+    int fitmentId = ViewBag.FitmentID;
+}
+
+<script>
+    $(function () {
+        $("#form-price").submit(function () {
+            var btn = $("#form-price button[type='submit']");
+            btn.attr("disabled", "disabled");
+            ShowMessage("正在指定单价，请稍等......");
+            var data = $(this).serialize();
+            $.request("/fitment/price", data, function (json) {
+                if (json.result === 0) {
+                    ShowErrorMessage(json.content);
+                    btn.removeAttr("disabled");
+                } else {
+                    ShowSuccessMessage("成功指定单价");
+                    location.href = "/fitment/detail?id=@(fitmentId)";
+                }
+
+            });
+            return false;
+        });
+    });
+</script>
+
+<h3 class="text-center">
+    &nbsp;指定单价
+</h3>
+
+<form class="form-horizontal" method="post" action="" id="form-price">
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="alert alert-warning">
+                <span>如需修改系统单价，输入单价即可！如需调整回系统单价，单价中指定空，修改即可！</span>
+            </div>
+            @{ 
+                Html.RenderPartial("_Message");
+            }
+            <div class="form-group">
+                <label class="control-label col-xs-4">&nbsp;指定单价</label>
+                <div class="col-xs-7">
+                    <input type="text" name="Price" class="form-control" />
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-7 col-md-offset-4">
+                    <button type="submit" class="btn btn-primary"><i class="glyphicon glyphicon-ok"></i>&nbsp;修改单价</button>
+                    <button type="button" class="btn btn-default" data-dismiss="modal"><i class="glyphicon glyphicon-remove"></i>&nbsp; 取消</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>

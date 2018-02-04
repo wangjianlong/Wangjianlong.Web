@@ -242,5 +242,70 @@ namespace Wangjianlong.Web.Controllers
             }
             return SuccessJsonResult();
         }
+
+        public ActionResult ExChange(int id,int fitmentId)
+        {
+            ViewBag.ID = fitmentId;
+            var positions = Core.PositionManager.GetByFitmentID(fitmentId);
+            ViewBag.Positions = positions;
+            var fitmentItem = Core.FitmentItemManager.Get(id);
+            ViewBag.FitmentItem = fitmentItem;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Change(int id,int positionId)
+        {
+            if (!Core.FitmentItemManager.Change(id, positionId))
+            {
+
+                return ErrorJsonResult("参数不正确，无法进行转移位置操作！");
+            }
+            return SuccessJsonResult();
+        }
+
+        public ActionResult Copy(int id)
+        {
+            var position = Core.PositionManager.Get(id);
+            ViewBag.Position = position;
+            return View();
+        }
+        [HttpPost]
+        public ActionResult Copy(string Name,Category category,int positionId)
+        {
+            if (string.IsNullOrEmpty(Name))
+            {
+                return ErrorJsonResult("复制位置名称不能为空！");
+            }
+            if (!Core.PositionManager.Copy(positionId, Name, category))
+            {
+                return ErrorJsonResult("复制失败");
+            }
+            return SuccessJsonResult();
+        }
+
+        public ActionResult Price(int id)
+        {
+            var item = Core.FitmentItemManager.Get(id);
+            if (item != null)
+            {
+                if (item.Position != null)
+                {
+                    ViewBag.FitmentID = item.Position.FitmentID;
+                }
+            }
+            ViewBag.Item = item;
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult Price(int id,double? price)
+        {
+            if (!Core.FitmentItemManager.Price(id, price))
+            {
+                return ErrorJsonResult("指定单价失败！");
+            }
+            return SuccessJsonResult();
+        }
     }
 }
