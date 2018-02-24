@@ -11,7 +11,7 @@
             btn.attr("disabled", "disabled");
             ShowMessage("正在指定单价，请稍等......");
             var data = $(this).serialize();
-            $.request("/fitment/price", data, function (json) {
+            $.request("/fitment/Saveprice", data, function (json) {
                 if (json.result === 0) {
                     ShowErrorMessage(json.content);
                     btn.removeAttr("disabled");
@@ -42,7 +42,12 @@
             <div class="form-group">
                 <label class="control-label col-xs-4">&nbsp;指定单价</label>
                 <div class="col-xs-7">
-                    <input type="text" name="Price" class="form-control" />
+                    <div class="input-group">
+                        <input type="hidden" name="ID" value="@(item.ID)" />
+                        <input type="text" name="Price" class="form-control" value="@(item.Price.HasValue?item.Price.Value:item.Project.Price)" />
+                        <span class="input-group-addon">@string.Format("元/{0}",item.Project.Unit)</span>
+                    </div>
+                  
                 </div>
             </div>
             <div class="form-group">

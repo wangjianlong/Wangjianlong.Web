@@ -77,7 +77,15 @@ namespace Wangjianlong.Common
                                 line++;
                                 ExcelManager.GetCell(row, 0, modelRow).SetCellValue(serial++);
                                 ExcelManager.GetCell(row, 1, modelRow).SetCellValue(item.Name);
-                                ExcelManager.GetCell(row, 2, modelRow).SetCellValue(item.Price);
+                                if (item.Price2.HasValue)
+                                {
+                                    ExcelManager.GetCell(row, 2, modelRow).SetCellValue(item.Price2.Value);
+                                }
+                                else
+                                {
+                                    ExcelManager.GetCell(row, 2, modelRow).SetCellValue(item.Price);
+                                }
+                              
                                 ExcelManager.GetCell(row, 3, modelRow).SetCellValue(item.Number);
                                 ExcelManager.GetCell(row, 4, modelRow).SetCellValue(item.Unit);
                                 ExcelManager.GetCell(row, 5, modelRow).SetCellValue(string.Format("{0}%", item.NewOld));
@@ -171,7 +179,15 @@ namespace Wangjianlong.Common
                                 line++;
                                 ExcelManager.GetCell(row, 0,modelRow).SetCellValue(serial++);
                                 ExcelManager.GetCell(row, 1,modelRow).SetCellValue(item.Name);
-                                ExcelManager.GetCell(row, 2,modelRow).SetCellValue(item.Price);
+                                if (item.Price2.HasValue)
+                                {
+                                    ExcelManager.GetCell(row, 2, modelRow).SetCellValue(item.Price2.Value);
+                                }
+                                else
+                                {
+                                    ExcelManager.GetCell(row, 2, modelRow).SetCellValue(item.Price);
+                                }
+                               
                                 ExcelManager.GetCell(row, 3,modelRow).SetCellValue(item.Number);
                                 ExcelManager.GetCell(row, 4, modelRow).SetCellValue(item.Unit);
                                 ExcelManager.GetCell(row, 5, modelRow).SetCellValue(string.Format("{0}%", item.NewOld));

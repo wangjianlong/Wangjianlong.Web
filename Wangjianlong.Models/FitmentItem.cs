@@ -32,7 +32,7 @@ namespace Wangjianlong.Models
         /// <summary>
         /// 指定单价
         /// </summary>
-        public double? Price { get; set; }
+        public int? Price { get; set; }
 
         public double Sum
         {

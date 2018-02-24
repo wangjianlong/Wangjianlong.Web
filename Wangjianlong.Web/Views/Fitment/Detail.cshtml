@@ -191,7 +191,15 @@
                             <tr>
                                 <td>@(serial++)</td>
                                 <td>@string.Format("{0}（{1}）", entey.Name, entey.Title)</td>
-                                <td>@(entey.Price)</td>
+                                @if (entey.Price2.HasValue)
+                                {
+                                    <td>@(entey.Price2.Value)(@string.Format("原始单价：{0}",entey.Price))</td>
+                                }
+                                else
+                                {
+                                    <td>@(entey.Price)</td>
+                                }
+                               
                                 <td>
                                     <button type="button" class="btn btn-default btn-xs" data-toggle="tooltip" data-placement="top" title="@(entey.Formula)">
                                         @(entey.Number)

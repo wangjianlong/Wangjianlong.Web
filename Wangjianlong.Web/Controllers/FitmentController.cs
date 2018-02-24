@@ -299,7 +299,7 @@ namespace Wangjianlong.Web.Controllers
         }
 
         [HttpPost]
-        public ActionResult Price(int id,double? price)
+        public ActionResult SavePrice(int id,int? price)
         {
             if (!Core.FitmentItemManager.Price(id, price))
             {

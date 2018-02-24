@@ -92,7 +92,7 @@ namespace Wangjianlong.Managers
             Db.SaveChanges();
             return true;
         }
-        public bool Price(int id,double? price)
+        public bool Price(int id,int? price)
         {
             var model = Db.FitmentItems.Find(id);
             if (model == null)
